@@ -1,21 +1,21 @@
 {
-  "name": "parcel-project-filmoteka",
+  "name": "group-3-filmoteka",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://rafalgalecki.github.io/parcel-project-filmoteka",
+  "homepage": "https://rafalgalecki.github.io/group-3-filmoteka",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /parcel-project-filmoteka/"
+    "build": "parcel build src/*.html --public-url /group-3-filmoteka/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RafalGalecki/parcel-project-filmoteka.git"
+    "url": "git+https://github.com/RafalGalecki/group-3-filmoteka.git"
   },
   "keywords": [],
   "author": "Alexander Repeta <alexander.repeta@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/RafalGalecki/parcel-project-filmoteka/issues"
+    "url": "https://github.com/RafalGalecki/group-3-filmoteka/issues"
   },
   "dependencies": {
     "modern-normalize": "^1.1.0"
