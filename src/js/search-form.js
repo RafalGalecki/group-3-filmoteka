@@ -6,7 +6,7 @@ const handleSubmit = e => {
   e.preventDefault();
   const searchInput = e.target[0].value;
   console.log(searchInput);
-  getSearchedMovies(searchInput).then(res => console.log(res.data));
+  getSearchedMovies(searchInput);
 };
 
 form.addEventListener('submit', handleSubmit);
