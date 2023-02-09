@@ -2,7 +2,7 @@
   "name": "group-3-filmoteka",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://rafalgalecki.github.io/group-3-filmoteka",
+  "homepage": "https://rafalgalecki.github.io/group-3-filmoteka/",
   "scripts": {
     "start": "parcel src/*.html",
     "build": "parcel build src/*.html --public-url /group-3-filmoteka/"
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.6.0",
+    "buffer": "^6.0.3",
     "parcel": "^2.6.0",
     "parcel-reporter-clean-dist": "^1.0.4",
     "posthtml-include": "^1.7.4"
