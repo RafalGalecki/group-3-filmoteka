@@ -2,9 +2,9 @@ import '../sass/cards-home.scss';
 import '../sass/modal-card.scss';
 import { getInitialMovies, getGenres, getMovieDetails } from './fetch';
 
-const moviesContainer = document.querySelector('.cards-container');
+export const moviesContainer = document.querySelector('.cards-container');
 
-function loadMovies() {
+export function loadMovies() {
   //get genres for movies
   getGenres().then(el => {
     const genres = el;
