@@ -3,14 +3,17 @@ import axios from 'axios';
 const API_KEY = '7e626872ba2c457d969115031d94d6fb';
 const BASE_URL = 'https://api.themoviedb.org/3/';
 
+export let page = 1;
+
 //fetch for getting movies based on input for searching
-export const getSearchedMovies = async searchInput => {
+export const getSearchedMovies = async (searchInput) => {
   const urlForSearching = ''.concat(
     BASE_URL,
     'search/movie?api_key=',
     API_KEY,
     '&query=',
-    searchInput
+    searchInput,
+    `&page=${page}`
   );
 
   const response = await axios
@@ -28,7 +31,7 @@ export const getSearchedMovies = async searchInput => {
       //   'We are sorry, but getting data is impossible in that moment'
       // );
     });
-
+  console.log("Input Response", response);
   return response;
 };
 
@@ -36,8 +39,9 @@ export const getSearchedMovies = async searchInput => {
 export const getInitialMovies = async () => {
   const urlForInitialMovies = ''.concat(
     BASE_URL,
-    'trending/movie/week?api_key=',
-    API_KEY
+    'trending/movie/day?api_key=',
+    API_KEY,
+    `&page=${page}`
   );
 
   const response = await axios
@@ -45,7 +49,6 @@ export const getInitialMovies = async () => {
     .then(function (response) {
       // handle success
 
-      // console.log(response);
       return response;
     })
     .catch(function (error) {
@@ -71,8 +74,8 @@ export const getGenres = async () => {
     .get(urlForGenres)
     .then(function (response) {
       // handle success
-    //   console.log(response);
-    return response.data.genres
+      //   console.log(response);
+      return response.data.genres;
     })
     .catch(function (error) {
       // handle error
@@ -105,3 +108,29 @@ export const getGenres = async () => {
 // };
 
 // getConfiguration()
+
+
+//get movie details
+export const getMovieDetails = async (movie_id) => {
+    const urlForMovieDetails= ''.concat(
+      BASE_URL,
+      `movie/${movie_id}?api_key=`,
+      API_KEY
+    );
+
+    const response = await axios
+      .get(urlForMovieDetails)
+      .then(function (response) {
+        // handle success
+          console.log(response.data);
+        return response.data;
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
+  
+    return response;
+  };
+
+//   getMovieDetails()
