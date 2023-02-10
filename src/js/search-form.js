@@ -54,7 +54,10 @@ export function renderMovies(response) {
     moviePicture.classList.add('movie-card__img');
     moviePicture.setAttribute('src', urlImg);
     moviePicture.setAttribute('alt', singleMovie.title);
-    moviePicture.setAttribute('onerror', "this.src = 'display:none'");
+    moviePicture.setAttribute(
+      'onerror',
+      "this.src = 'https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg'"
+    );
     moviePicture.setAttribute('loading', 'lazy');
 
     let movieTitle = document.createElement('h2');
