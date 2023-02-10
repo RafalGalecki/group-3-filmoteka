@@ -54,6 +54,7 @@ export function renderMovies(response) {
     moviePicture.classList.add('movie-card__img');
     moviePicture.setAttribute('src', urlImg);
     moviePicture.setAttribute('alt', singleMovie.title);
+    moviePicture.setAttribute('onerror', "this.src = 'display:none'");
     moviePicture.setAttribute('loading', 'lazy');
 
     let movieTitle = document.createElement('h2');
