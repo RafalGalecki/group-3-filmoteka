@@ -1,8 +1,8 @@
 'use strict';
 
 
-function renderCardPaginator(count, selectedPage = 1, pageSize = 20) {
-    const pages = Math.ceil(count / pageSize);
+function renderCardPaginator(totalPages, selectedPage = 1, pageSize = 20) {
+    const pages = Math.ceil(totalPages / pageSize);
     const paginationContainer = document.querySelector(".pagination-container");
     paginationContainer.innerHTML = '';
 
