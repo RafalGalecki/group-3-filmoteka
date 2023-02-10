@@ -1,6 +1,10 @@
+@use '../utils' as *;
+
+// edit below
+
 .header-home {
     position: relative;
-    background-image: url('../images/bg-image.jpg');
+    background-image: url('/src/images/bg-image.jpg');
     max-width: 1024px;
     height: 230px;
     margin: 0 auto;
