@@ -6,7 +6,7 @@ const BASE_URL = 'https://api.themoviedb.org/3/';
 export let page = 1;
 
 //fetch for getting movies based on input for searching
-export const getSearchedMovies = async searchInput => {
+export const getSearchedMovies = async (searchInput) => {
   const urlForSearching = ''.concat(
     BASE_URL,
     'search/movie?api_key=',
@@ -31,7 +31,7 @@ export const getSearchedMovies = async searchInput => {
       //   'We are sorry, but getting data is impossible in that moment'
       // );
     });
-
+  console.log("Input Response", response);
   return response;
 };
 
