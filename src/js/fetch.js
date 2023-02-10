@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import { renderMovies } from './search-form';
+import { loadMovies } from './cards-home';
 const API_KEY = '7e626872ba2c457d969115031d94d6fb';
 const BASE_URL = 'https://api.themoviedb.org/3/';
 
@@ -20,7 +21,7 @@ export const getSearchedMovies = async searchInput => {
     .get(urlForSearching)
     .then(function (response) {
       // handle success
-
+      renderMovies(response);
       //   console.log(response);
       return response;
     })
@@ -31,7 +32,7 @@ export const getSearchedMovies = async searchInput => {
       //   'We are sorry, but getting data is impossible in that moment'
       // );
     });
-
+  console.log('Input Response', response);
   return response;
 };
 
@@ -109,28 +110,27 @@ export const getGenres = async () => {
 
 // getConfiguration()
 
-
 //get movie details
-export const getMovieDetails = async (movie_id) => {
-    const urlForMovieDetails= ''.concat(
-      BASE_URL,
-      `movie/${movie_id}?api_key=`,
-      API_KEY
-    );
+export const getMovieDetails = async movie_id => {
+  const urlForMovieDetails = ''.concat(
+    BASE_URL,
+    `movie/${movie_id}?api_key=`,
+    API_KEY
+  );
 
-    const response = await axios
-      .get(urlForMovieDetails)
-      .then(function (response) {
-        // handle success
-          console.log(response.data);
-        return response.data;
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-  
-    return response;
-  };
+  const response = await axios
+    .get(urlForMovieDetails)
+    .then(function (response) {
+      // handle success
+      console.log(response.data);
+      return response.data;
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    });
+
+  return response;
+};
 
 //   getMovieDetails()
