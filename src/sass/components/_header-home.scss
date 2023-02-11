@@ -59,9 +59,9 @@
 .nav__link {
   transition: color 250ms;
 
-  // &--active {
-  //   border-bottom: 3px solid $secondary-accent-cl;
-  // }
+  &--active {
+    border-bottom: 3px solid $secondary-accent-cl;
+  }
 
   &:hover {
     color: $secondary-accent-cl;
@@ -90,10 +90,6 @@
     background-color: transparent;
     border: none;
   }
-}
-
-.active {
-  border-bottom: 3px solid $secondary-accent-cl;
 }
 
 @media (min-width: 768px) {
