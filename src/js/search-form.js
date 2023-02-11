@@ -4,11 +4,12 @@ import { refreshRendering } from './refreshrendering';
 import { moviesContainer } from './cards-home';
 
 const DEBOUNCE_DELAY = 3000;
+export let searchInput;
 
 const form = document.querySelector('#search-form');
-const handleSubmit = debounce(function (e) {
+export const handleSubmit = debounce(function (e) {
   e.preventDefault();
-  const searchInput = e.target.value.trim();
+  searchInput = e.target.value.trim();
   console.log('keywords are ', searchInput);
   refreshRendering();
   getSearchedMovies(searchInput);
@@ -20,6 +21,7 @@ form.addEventListener('input', handleSubmit);
 // ATTENTION!
 // cards rendering function should be separate to its own js file
 export function renderMovies(response) {
+  //refreshRendering();
   //get genres for movies
   getGenres().then(el => {
     const genres = el;
