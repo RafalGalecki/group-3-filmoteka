@@ -1,13 +1,16 @@
 import axios from 'axios';
 import { renderMovies } from './search-form';
-import { loadMovies } from './cards-home';
+//import { loadMovies } from './cards-home';
+import { renderCardPaginator } from './pagination';
+import { refreshRendering } from './refreshrendering';
+
 const API_KEY = '7e626872ba2c457d969115031d94d6fb';
 const BASE_URL = 'https://api.themoviedb.org/3/';
 
 export let page = 1;
 
 //fetch for getting movies based on input for searching
-export const getSearchedMovies = async searchInput => {
+export const getSearchedMovies = async (searchInput, page = 1) => {
   const urlForSearching = ''.concat(
     BASE_URL,
     'search/movie?api_key=',
@@ -21,6 +24,8 @@ export const getSearchedMovies = async searchInput => {
     .get(urlForSearching)
     .then(function (response) {
       // handle success
+      refreshRendering();
+      renderCardPaginator(response.data.total_pages, response.data.page);
       renderMovies(response);
       //   console.log(response);
       return response;
