@@ -8,6 +8,7 @@ const API_KEY = '7e626872ba2c457d969115031d94d6fb';
 const BASE_URL = 'https://api.themoviedb.org/3/';
 
 export let page = 1;
+export let movieID
 
 //fetch for getting movies based on input for searching
 export const getSearchedMovies = async (searchInput, page = 1) => {
@@ -128,6 +129,7 @@ export const getMovieDetails = async movie_id => {
     .then(function (response) {
       // handle success
       console.log(response.data);
+      movieID = response.data.id
       return response.data;
     })
     .catch(function (error) {
