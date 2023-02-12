@@ -10,7 +10,7 @@ const form = document.querySelector('#search-form');
 export const handleSubmit = debounce(function (e) {
   e.preventDefault();
   searchInput = e.target.value.trim();
-  console.log('keywords are ', searchInput);
+  
   refreshRendering();
   getSearchedMovies(searchInput);
   //renderMovies(res.data.results);
@@ -21,11 +21,10 @@ form.addEventListener('input', handleSubmit);
 // ATTENTION!
 // cards rendering function should be separate to its own js file
 export function renderMovies(response) {
-  //refreshRendering();
+  refreshRendering();
   //get genres for movies
   getGenres().then(el => {
     const genres = el;
-    console.log(genres);
     generateCards(response.data.results);
     // //get movies with genres description
     //   getInitialMovies().then(res => {
