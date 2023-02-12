@@ -6,7 +6,10 @@ import { renderCardPaginator } from './pagination';
 export const API_KEY = '7e626872ba2c457d969115031d94d6fb';
 export const BASE_URL = 'https://api.themoviedb.org/3/';
 
-let page = 1;
+
+export let page = 1;
+export let movieID
+
 
 //fetch for getting movies based on input for searching
 export const getSearchedMovies = async (searchInput, page = 1) => {
@@ -127,7 +130,12 @@ export const getMovieDetails = async movie_id => {
     .get(urlForMovieDetails)
     .then(function (response) {
       // handle success
+
+      console.log(response.data);
+      movieID = response.data.id
+
       //console.log(response.data);
+
       return response.data;
     })
     .catch(function (error) {
