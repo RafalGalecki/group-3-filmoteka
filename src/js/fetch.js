@@ -41,7 +41,7 @@ export const getSearchedMovies = async (searchInput, page = 1) => {
   return response;
 };
 
-//fetch for getting movies for initial website based on weekly trending
+//fetch for getting movies for initial website based on daily trending
 export const getInitialMovies = async () => {
   const urlForInitialMovies = ''.concat(
     BASE_URL,
