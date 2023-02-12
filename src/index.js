@@ -3,3 +3,4 @@
 import './js/cards-home';
 import './js/fetch';
 import './js/search-form';
+import './js/modal-students';
