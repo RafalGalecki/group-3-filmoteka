@@ -14,21 +14,33 @@ export function loadMovies() {
     getInitialMovies().then(res => {
       const initialMovies = res.data.results;
 
-      console.log(res.data);
+      console.log(res.data.results);
 
-      generateCards(initialMovies);
+      generateCards(initialMovies, genres);
     });
   });
 
   //create set of movie cards
-  function generateCards(data) {
-    data.map(el => {
-      createMovieCard(el);
+  function generateCards(data, genres) {
+    data.map(movie => {
+      const genresDesc = getGenresDescription(movie, genres);
+      createMovieCard(movie, genresDesc);
     });
   }
 
+  //generating array of genres description basing on array of objects from genres fetch function and genre_ids from movie
+  function getGenresDescription(movie, genres) {
+    return genres.reduce((acc, el) => {
+      if (movie.genre_ids.includes(el.id)) {
+        acc.push(el.name);
+      }
+      return acc;
+    }, []);
+  }
+
   //create single movie card element
-  function createMovieCard(singleMovie) {
+  function createMovieCard(singleMovie, genresDesc) {
+
     let movieWrapper = document.createElement('div');
     movieWrapper.classList.add('movie-card');
     movieWrapper.setAttribute('id', singleMovie.id);
@@ -46,112 +58,19 @@ export function loadMovies() {
     movieTitle.classList.add('movie-card__title');
     movieTitle.textContent = singleMovie.title;
 
-    let movieInfo = document.createElement('p');
+    let movieInfo = document.createElement('span');
     movieInfo.classList.add('movie-card__info');
-    movieInfo.textContent = `${singleMovie.release_date.slice(0, 4)}`;
 
+    movieInfo.textContent = `${genresDesc} | ${singleMovie.release_date.slice(0, 4)}`;
+
+    let movieRating = document.createElement('span');
+    movieRating.classList.add('movie-card__rating');
+    movieRating.textContent = singleMovie.vote_average;
+
+    //adding elements to HTML
     moviesContainer.appendChild(movieWrapper);
-    movieWrapper.append(moviePicture, movieTitle, movieInfo);
+    movieWrapper.append(moviePicture, movieTitle, movieInfo, movieRating);
   }
 }
 
-//modal
-const modal = document.querySelector('.modal-card');
-
-const createModalCard = el => {
-  const btnClose = document.createElement('button');
-  btnClose.classList.add('btn--close');
-  btnClose.textContent = 'close';
-
-  const modalImage = document.createElement('img');
-  modalImage.classList.add('modal-card__img');
-  modalImage.setAttribute(
-    'src',
-    `https://image.tmdb.org/t/p/w185${el.poster_path}`
-  );
-  modalImage.setAttribute('alt', `${el.title}`);
-
-  const modalHeader = document.createElement('h2');
-  modalHeader.classList.add('modal-card__title');
-  modalHeader.textContent = el.title;
-
-  const modalMovieInfo = document.createElement('ul');
-  modalMovieInfo.classList.add('modal-card__list');
-
-  const movieInfoTypes = [
-    'Vote/Votes',
-    'Popularity',
-    'Original Title',
-    'Genre',
-  ];
-
-  movieInfoTypes.map(content => {
-    let movieInfoItem = document.createElement('li');
-    movieInfoItem.classList.add('modal-card__list-item');
-    movieInfoItem.textContent = content;
-
-    let movieInfoDetails = document.createElement('span');
-    movieInfoDetails.classList.add('modal-card__list-details');
-
-    modalMovieInfo.appendChild(movieInfoItem);
-    movieInfoItem.appendChild(movieInfoDetails);
-  });
-
-  const modalMovieAbout = document.createElement('h3');
-  modalMovieAbout.classList.add('modal-card__movie-about');
-  modalMovieAbout.textContent = 'ABOUT';
-
-  const modalMovieDesc = document.createElement('p');
-  modalMovieDesc.classList.add('modal-card__movie-desc');
-  modalMovieDesc.textContent = el.overview;
-
-  const modalBtnAddWatch = document.createElement('button');
-  modalBtnAddWatch.classList.add('btn');
-  modalBtnAddWatch.textContent = 'ADD TO WATCHED';
-
-  const modalBtnAddQue = document.createElement('button');
-  modalBtnAddQue.classList.add('btn');
-  modalBtnAddQue.textContent = 'ADD TO QUE';
-
-  modal.append(
-    btnClose,
-    modalImage,
-    modalHeader,
-    modalMovieInfo,
-    modalMovieAbout,
-    modalMovieDesc,
-    modalBtnAddWatch,
-    modalBtnAddQue
-  );
-};
-
-const displayMovieInfo = e => {
-  e.stopPropagation();
-  //   console.log(e.target);
-  //   console.log(e.target.parentElement);
-
-  //napisać funkcję, która będzie szukała z rodzica img i wtedy pociągnie zdjęcie po url bez konieczności fetch'a
-
-  const movie_id = e.target.parentElement.getAttribute('id');
-  //   console.log(movie_id);
-
-  getMovieDetails(movie_id).then(el => {
-    // console.log(el);
-    createModalCard(el);
-  });
-
-  modal.parentElement.classList.toggle('visibility');
-
-};
-
-const hideModal = () => {
-  modal.parentElement.classList.toggle('visibility');
-};
-
-// const btnCloseModal = document.querySelector('.btn--close');
-// console.log(btnCloseModal);
-//   btnCloseModal.addEventListener('click', hideModal);
-// document.body.addEventListener('click',hideModal)
-
 document.addEventListener('DOMContentLoaded', loadMovies());
-moviesContainer.addEventListener('click', displayMovieInfo);
