@@ -1,77 +1,77 @@
 'use strict';
-
-import { getSearchedMovies } from "./fetch";
-import { handleSubmit, searchInput } from "./search-form";
-
-
+import axios from 'axios';
+import { API_KEY, BASE_URL } from './fetch';
+import { searchInput } from './search-form';
+import { renderMovies } from './search-form';
 
 export function renderCardPaginator(totalPages, selectedPage = 1) {
   const pages = totalPages;
-  const paginationContainer = document.querySelector('.pagination-container');
+  const paginationContainer = document.getElementById('pagination-numbers');
   paginationContainer.innerHTML = '';
-
+  const buttonsLimit = 9;
+  
   for (let i = 1; i <= pages; i++) {
     const pageBtn = document.createElement('button');
     pageBtn.setAttribute('type', 'button');
     pageBtn.classList.add('pagination__btn');
-    pageBtn.setAttribute('value', `${i}`)
+    pageBtn.setAttribute('value', `${i}`);
+    pageBtn.setAttribute('id', `${i}`);
     pageBtn.innerText = i;
     if (i === Number(selectedPage)) {
       pageBtn.setAttribute('selected', true);
     }
     paginationContainer.append(pageBtn);
   }
+
+  const pageBtnFirst = document.getElementById('1');
+  pageBtnFirst.classList.add('activebtn');
+
   paginationContainer.addEventListener('click', event => {
     //event.preventDefault();
-    let selectedPage = Number(event.target.value);
+    selectedPage = Number(event.target.value);
+
+    console.log('event.target.id', event.target.id);
+
     const preloader = document.getElementById('preloader');
-    const cardsContainer = document.querySelector('.cards-container');
+    //const cardsContainer = document.querySelector('.cards-container');
 
     preloader.classList.add('hidden');
     //paginationContainer.classList.add('hidden');
     //cardsContainer.classList.add('hidden');
 
-    // fetchJsonResponse(`http://swapiMOCK.dev/api/people/?page=${selectedPage}`)
-    //   .then(response => {
-    //     renderCardPaginator(response['count'], selectedPage);
-    //     renderMOVIECARDS(response['results']);
-    //   })
-    //   .then(() => {
-    //     setTimeout(() => {
-    //       preloader.classList.add('hidden');
-    //       paginationContainer.classList.remove('hidden');
-    //       cardsContainer.classList.remove('hidden');
-    //     }, 1500);
-    //   });
-    // not work // getSearchedMovies();
+    setActivePage(selectedPage);
+    const urlForSearching = ''.concat(
+      BASE_URL,
+      'search/movie?api_key=',
+      API_KEY,
+      '&query=',
+      searchInput,
+      `&page=${selectedPage}`
+    );
 
-    console.log('!!!searchInput is :', searchInput);
-    console.log('!!!selectedPage is :', selectedPage);
-    getSearchedMovies(searchInput, selectedPage);
+    axios
+      .get(urlForSearching)
+      .then(function (response) {
+        // handle success
+
+        renderMovies(response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+        // Notiflix.Notify.error(
+        //   'We are sorry, but getting data is impossible in that moment'
+        // );
+      });
   });
 }
 
-// put this function to fetch querry function like that:
-
-// fetchJsonResponse("http://swapiMOCK.dev/api/people")
-//   .then((response) => {
-//     renderCardPaginator(response["count"]);
-//     renderMOVIECARDS(response["results"]);
-//   })
-//   .then(() => {
-//     preloader.classList.add("hidden");
-
-//     document.querySelector("pagination-container").classList.remove("hidden");
-//     document.querySelector("cards-container").classList.remove("hidden");
-//   });
-
-// in HTML div elements with classes
-// preloader, pagination-container and cards-container
-// they have class hidden
+// Page buttons logic
 
 
-// -----------------------------------------------//
-// export function renderCardPaginator(totalPages, page) {
-//   const paginationNumbers = document.getElementById('pagination-numbers');
-
-// }
+function setActivePage(currentPage) {
+  const elementActive = document.querySelector('.activebtn');
+  elementActive.classList.remove('activebtn');
+  const activeBtn = document.getElementById(`${currentPage}`);
+  activeBtn.classList.add('activebtn');
+}
