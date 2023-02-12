@@ -8,7 +8,6 @@ export function loadMovies() {
   //get genres for movies
   getGenres().then(el => {
     const genres = el;
-    console.log(genres);
 
     //get movies with genres description
     getInitialMovies().then(res => {
