@@ -3,59 +3,105 @@
 // edit below
 
 .header-home {
-    position: relative;
-    background-image: url('/src/images/bg-image.jpg');
-    max-width: 1024px;
-    height: 230px;
-    margin: 0 auto;
+  position: relative;
+  background-image: url('/src/images/bg-image.jpg');
+  background-position: center;
+  max-width: 1024px;
+  height: 230px;
+  margin: 0 auto;
+  color: $secondary-text-cl;
+  font-family: $main-font;
+}
+
+.header-home__bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: $dark-secondary-bg-cl;
+}
+
+.header-home__container {
+  max-width: 280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.logo__text {
+  display: none;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 40px;
+}
+
+.nav__list {
+  display: flex;
+  gap: 40px;
+}
+
+.nav__item {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.nav__link {
+  transition: color 250ms;
+
+  &--active {
+    border-bottom: 3px solid $secondary-accent-cl;
   }
-  
-  .header-home__bg {
-    position: absolute;
+
+  &:hover {
+    color: $secondary-accent-cl;
+  }
+}
+
+.search-form {
+  width: 100%;
+  max-width: 336px;
+  border-bottom: 1px solid white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+
+  input {
+    background-color: transparent;
     width: 100%;
-    height: 100%;
-    background-color: #0000008f;
+    border: none;
+    padding: 5px;
+    font-size: 14px;
+    outline: none;
+    color: inherit;
   }
-  
-  .container {
-    max-width: 280px;
-    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .header-home__container {
+    max-width: 617px;
   }
-  
+
   .logo__text {
-    display: none;
+    display: inline-block;
+    font-size: 30px;
+    font-weight: 500;
   }
-  
-  .link {
-    text-decoration: none;
+}
+
+@media (min-width: 1024px) {
+  .header-home__container {
+    max-width: 882px;
   }
-  .menu {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .nav__list {
-    display: flex;
-    gap: 40px;
-  }
-  
-  .nav__item {
-    gap: 40px;
-  }
-  
-  @media (min-width: 768px) {
-    .container {
-      max-width: 617px;
-    }
-  
-    .logo__text {
-      display: inline-block;
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .container {
-      max-width: 882px;
-    }
-  }
-  
+}
