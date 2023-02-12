@@ -1,5 +1,9 @@
 import { moviesContainer } from './cards-home';
 import { getGenres, getMovieDetails } from './fetch';
+import { saveToWatched } from './localStorage';
+import { saveToQue } from './localStorage';
+import { movieID } from './fetch';
+import { merge } from 'lodash';
 
 const modal = document.querySelector('.modal-card');
 
@@ -72,11 +76,11 @@ export const createModalCard = el => {
   modalMovieDesc.textContent = el.overview;
 
   const modalBtnAddWatch = document.createElement('button');
-  modalBtnAddWatch.classList.add('btn');
+  modalBtnAddWatch.classList.add('btn__addToWatched');
   modalBtnAddWatch.textContent = 'ADD TO WATCHED';
 
   const modalBtnAddQue = document.createElement('button');
-  modalBtnAddQue.classList.add('btn');
+  modalBtnAddQue.classList.add('btn__addToQue');
   modalBtnAddQue.textContent = 'ADD TO QUE';
 
   modal.append(
@@ -89,6 +93,33 @@ export const createModalCard = el => {
     modalBtnAddWatch,
     modalBtnAddQue
   );
+  let watched = []
+  const watchedData = JSON.parse(localStorage.getItem('watched'))
+
+  if (watchedData != null) {
+    watched.push(...watchedData)
+  }
+
+  if (watched.includes(movieID)) {
+    modalBtnAddWatch.textContent = "REMOVE FROM WATCHED"
+  }
+
+  modalBtnAddWatch.addEventListener("click", saveToWatched)
+
+  let que = []
+  const queData = JSON.parse(localStorage.getItem('que'))
+  
+  if (queData != null) {
+      que.push(...queData)
+  }
+  
+  if (que.includes(movieID)) {
+      modalBtnAddQue.textContent = "REMOVE FROM QUE"
+  }
+  
+   modalBtnAddQue.addEventListener("click", saveToQue)
+
+
 };
 
 const displayMovieInfo = async e => {
