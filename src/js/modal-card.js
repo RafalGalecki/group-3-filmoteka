@@ -10,6 +10,7 @@ const modal = document.querySelector('.modal-card');
 export const createModalCard = el => {
   const btnClose = document.createElement('button');
   btnClose.classList.add('btn--close');
+  btnClose.setAttribute('type', 'button');
   btnClose.setAttribute('id', 'close-modal');
   btnClose.textContent = 'close';
 
