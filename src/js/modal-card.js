@@ -139,7 +139,7 @@ const displayMovieInfo = async e => {
 function hideModal() {
   modal.parentElement.classList.toggle('visibility');
   modal.replaceChildren();
-  modal.removeEventListener('click', hideModal);
+  // modal.removeEventListener('click', hideModal);
 }
 
 moviesContainer.addEventListener('click', displayMovieInfo);
