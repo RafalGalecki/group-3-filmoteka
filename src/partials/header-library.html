@@ -1,1 +1,47 @@
 <!-- header for library page -->
+
+<template class="library-temp">
+     <header class="header-library">
+         <div class="header-home__bg">
+            <div class="header-home__container">
+                <div class="menu">
+                    <div class="logo">
+                        <svg class="logo__icon" width="24px" height="24px">
+                            <use href="./images/icons.svg#icon-logo-icon"></use>
+                        </svg>
+                        <a href="#" class="link logo__text">Filmoteka</a>
+                    </div>
+                    <nav>
+                        <ul class="nav__list">
+                            <li class="nav__item"><a  id="home" href="#" class="link nav__link--active" >home</a></li>
+                            <li class="nav__item"><a href="#" class="link nav__link" >my library</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="switch__btn">
+                    <div class="switch__btn__icon-container">
+                      <i class="switch__btn__icon fa-solid fa-sun"></i>
+                    </div>
+                  </div>
+         
+                  <ul class="header__btn-wrapper btn-wrapper js-library-controls">
+                    <li>
+                      <button
+                        class="header__btn btn btn--white btn-js-active js-btn-watched"
+                        type="button"
+                      >
+                        Watched
+                      </button>
+                    </li>
+                    <li>
+                      <button class="header__btn btn btn--white js-btn-qeue" type="button">
+                        Queue
+                      </button>
+                    </li>
+                  </ul>
+            </div>
+             </div>
+     </header>
+</template>
+
+   
