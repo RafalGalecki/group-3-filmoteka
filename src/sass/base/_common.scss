@@ -32,6 +32,13 @@ li {
   list-style: none;
 }
 
-.hidden {
-  display: none;
+// .hidden {
+//   display: none;
+// }
+
+
+.visually-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }

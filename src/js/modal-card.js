@@ -3,7 +3,8 @@ import { getGenres, getMovieDetails } from './fetch';
 import { saveToWatched } from './localStorage';
 import { saveToQue } from './localStorage';
 import { movieID } from './fetch';
-import { merge } from 'lodash';
+//import { merge } from 'lodash';
+import merge from 'lodash.merge';
 
 const modal = document.querySelector('.modal-card');
 
