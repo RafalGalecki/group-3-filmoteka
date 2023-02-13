@@ -88,6 +88,16 @@
   }
 }
 
+.warning {
+  color: #ff001b;
+  font-size: 14px;
+  text-align: center;
+
+  &--hidden {
+    display: none;
+  }
+}
+
 @media (min-width: 768px) {
   .header-home__container {
     max-width: 617px;
