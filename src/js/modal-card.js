@@ -93,6 +93,9 @@ export const createModalCard = el => {
     modalBtnAddWatch,
     modalBtnAddQue
   );
+
+  //Adding EvenListiner to watched and Que buttons
+  //Adding logic for their textContent
   let watched = []
   const watchedData = JSON.parse(localStorage.getItem('watched'))
 
@@ -102,6 +105,7 @@ export const createModalCard = el => {
 
   if (watched.includes(movieID)) {
     modalBtnAddWatch.textContent = "REMOVE FROM WATCHED"
+    modalBtnAddQue.textContent = "ALREADY WATCHED"
   }
 
   modalBtnAddWatch.addEventListener("click", saveToWatched)
