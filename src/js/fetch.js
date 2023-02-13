@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Notiflix from 'notiflix';
 import { renderMovies } from './search-form';
 //import { loadMovies } from './cards-home';
 import { renderCardPaginator } from './pagination';
@@ -57,15 +58,13 @@ export const getInitialMovies = async () => {
     .get(urlForInitialMovies)
     .then(function (response) {
       // handle success
-
       return response;
     })
     .catch(function (error) {
       // handle error
-      console.log(error);
-      // Notiflix.Notify.error(
-      //   'We are sorry, but getting data is impossible in that moment'
-      // );
+      Notiflix.Notify.error(
+        'We are sorry, but getting data is impossible in that moment'
+      );
     });
 
   return response;
@@ -83,12 +82,14 @@ export const getGenres = async () => {
     .get(urlForGenres)
     .then(function (response) {
       // handle success
-      //   console.log(response);
       return response.data.genres;
     })
     .catch(function (error) {
       // handle error
-      console.log(error);
+      // handle error
+      Notiflix.Notify.error(
+        'We are sorry, but getting data is impossible in that moment'
+      );
     });
 
   return response;
@@ -130,20 +131,19 @@ export const getMovieDetails = async movie_id => {
     .get(urlForMovieDetails)
     .then(function (response) {
       // handle success
-
-      console.log(response.data);
       movieID = response.data.id
-
-      //console.log(response.data);
 
       return response.data;
     })
     .catch(function (error) {
       // handle error
-      console.log(error);
+      // handle error
+      Notiflix.Notify.error(
+        'We are sorry, but getting data is impossible in that moment'
+      );
     });
 
   return response;
 };
 
-//   getMovieDetails()
+
