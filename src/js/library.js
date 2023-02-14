@@ -29,7 +29,6 @@ const libraryLink = document.querySelector('#library');
 const homeLink = document.querySelector('#home');
 //const cardsHome = document.querySelector('.cards-container');
 const cardsLibraryWatched = document.querySelector('.cards-watched-container');
-const cardsLibraryQueue = document.querySelector('.cards-queue-container');
 
 
 export {watchedParsed, queueParsed, watchedMoviesContainer, headerLibrary };
@@ -56,9 +55,25 @@ export const getWatchedMovies = watchedParsed.map(el => {
         console.log(result.title);
         const singleMovie = result;
 watchedMovies.push(singleMovie);
-    }) 
+    })
+    .catch(error => console.log(error)); 
     console.log(watchedMovies);
     return watchedMovies;
+})
+
+
+
+let queueMovies = [];
+
+export const getQueueMovies = queueParsed.map(el => {
+    getMovieDetails(el).then(result => {
+        console.log(result.title);
+        const singleMovie = result;
+        queueMovies.push(singleMovie);
+    })
+    .catch(error => console.log(error)); 
+    console.log(watchedMovies);
+    return queueMovies;
 })
 
 
