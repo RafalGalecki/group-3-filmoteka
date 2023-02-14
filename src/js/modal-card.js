@@ -10,8 +10,10 @@ const modal = document.querySelector('.modal-card');
 
 export const createModalCard = el => {
   const btnClose = document.createElement('button');
+
   btnClose.classList.add('btn', 'btn--close');
   btnClose.textContent = '✖';
+
 
   const modalImage = document.createElement('img');
   modalImage.classList.add('modal-card__img');
@@ -140,8 +142,10 @@ const displayMovieInfo = async e => {
 function hideModal() {
   modal.parentElement.classList.add('is-hidden');
   modal.replaceChildren();
+
   //   modal.removeEventListener('click', hideModal);
   //   window.removeEventListener('keydown',hideModal)
+
 }
 
 moviesContainer.addEventListener('click', displayMovieInfo);
