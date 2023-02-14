@@ -1,7 +1,6 @@
 <!-- header for library page -->
 
-<template class="library-temp">
-     <header class="header-library">
+     <header class="header-library visually-hidden">
          <div class="header-home__bg">
             <div class="header-home__container">
                 <div class="menu">
@@ -24,17 +23,18 @@
                     </div>
                   </div>
          
-                  <ul class="header__btn-wrapper btn-wrapper js-library-controls">
+                  <ul class="header__btn-wrapper">
                     <li>
                       <button
-                        class="header__btn btn btn--white btn-js-active js-btn-watched"
+                      id="watched"
+                        class="header__btn btn js-btn-watched"
                         type="button"
                       >
                         Watched
                       </button>
                     </li>
                     <li>
-                      <button class="header__btn btn btn--white js-btn-qeue" type="button">
+                      <button id="queue" class="header__btn btn js-btn-queue" type="button">
                         Queue
                       </button>
                     </li>
@@ -42,6 +42,6 @@
             </div>
              </div>
      </header>
-</template>
+
 
    
