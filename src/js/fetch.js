@@ -3,14 +3,14 @@ import Notiflix from 'notiflix';
 import { renderMovies } from './search-form';
 //import { loadMovies } from './cards-home';
 import { renderCardPaginator } from './pagination';
+import { refreshRendering } from './refreshrendering';
 
+const warning = document.querySelector('.warning');
 export const API_KEY = '7e626872ba2c457d969115031d94d6fb';
 export const BASE_URL = 'https://api.themoviedb.org/3/';
 
-
 export let page = 1;
-export let movieID
-
+export let movieID;
 
 //fetch for getting movies based on input for searching
 export const getSearchedMovies = async (searchInput, page = 1) => {
@@ -28,11 +28,19 @@ export const getSearchedMovies = async (searchInput, page = 1) => {
     .then(function (response) {
       // handle success
       //refreshRendering();
-      renderMovies(response);
-      renderCardPaginator(response.data.total_pages, response.data.page);
-      
-      //   console.log(response);
-      return response;
+
+      if (response.data.results.length !== 0) {
+        warning.textContent = '';
+        renderMovies(response);
+        renderCardPaginator(response.data.total_pages, response.data.page);
+        return response;
+
+      } else {
+        // if no results found - show warning and reset pagination
+        warning.textContent = 'Search result not successful. Enter the correct movie name and try again.';
+        renderCardPaginator(1)
+      }
+
     })
     .catch(function (error) {
       // handle error
@@ -131,7 +139,7 @@ export const getMovieDetails = async movie_id => {
     .get(urlForMovieDetails)
     .then(function (response) {
       // handle success
-      movieID = response.data.id
+      movieID = response.data.id;
 
       return response.data;
     })
@@ -145,5 +153,3 @@ export const getMovieDetails = async movie_id => {
 
   return response;
 };
-
-

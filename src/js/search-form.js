@@ -7,16 +7,29 @@ const DEBOUNCE_DELAY = 3000;
 export let searchInput;
 
 const form = document.querySelector('#search-form');
-export const handleSubmit = debounce(function (e) {
+const input = document.querySelector('#search-form input');
+
+// export const handleSubmit = debounce(function (e) {
+//   e.preventDefault();
+//   searchInput = e.target.value.trim();
+
+//   refreshRendering();
+//   getSearchedMovies(searchInput);
+//   //renderMovies(res.data.results);
+// }, DEBOUNCE_DELAY);
+
+export const handleSubmit = function (e) {
   e.preventDefault();
-  searchInput = e.target.value.trim();
-  
+  searchInput = input.value.trim();
+
   refreshRendering();
   getSearchedMovies(searchInput);
-  //renderMovies(res.data.results);
-}, DEBOUNCE_DELAY);
+  clearInput();
 
-form.addEventListener('input', handleSubmit);
+  //renderMovies(res.data.results);
+};
+
+form.addEventListener('submit', handleSubmit);
 
 // ATTENTION!
 // cards rendering function should be separate to its own js file
@@ -73,3 +86,9 @@ export function renderMovies(response) {
     movieWrapper.append(moviePicture, movieTitle, movieInfo);
   }
 }
+
+function clearInput() {
+  input.value = '';
+}
+
+
