@@ -7,27 +7,24 @@ import { moviesContainer } from './cards-home';
 
 
 const watchedMoviesContainer = document.querySelector('.cards-watched-container');
-// const watchedHeaderBtn = document.querySelector('#watched');
-// const queueHeaderBtn = document.querySelector('#queue');
 
 const LOCALSTORAGE_WATCHED = "watched";
-const LOCALSTORAGE_QUE = "queue";
+const LOCALSTORAGE_QUE = "que";
 
 const watched = localStorage.getItem(LOCALSTORAGE_WATCHED) || "";
 const queue = localStorage.getItem(LOCALSTORAGE_QUE) || "";
 
 const watchedParsed = JSON.parse(watched);
-const queueParsed = JSON.parse(watched);
+const queueParsed = JSON.parse(queue);
 
 
-console.log(watchedParsed);
+// console.log(watchedParsed);
 
 
 const headerHome = document.querySelector('.header-home');
 const headerLibrary = document.querySelector('.header-library');
 const libraryLink = document.querySelector('#library');
 const homeLink = document.querySelector('#home');
-//const cardsHome = document.querySelector('.cards-container');
 const cardsLibraryWatched = document.querySelector('.cards-watched-container');
 
 
@@ -52,27 +49,22 @@ let watchedMovies = [];
 
 export const getWatchedMovies = watchedParsed.map(el => {
     getMovieDetails(el).then(result => {
-        console.log(result.title);
         const singleMovie = result;
 watchedMovies.push(singleMovie);
     })
     .catch(error => console.log(error)); 
-    console.log(watchedMovies);
     return watchedMovies;
 })
-
 
 
 let queueMovies = [];
 
 export const getQueueMovies = queueParsed.map(el => {
     getMovieDetails(el).then(result => {
-        console.log(result.title);
         const singleMovie = result;
         queueMovies.push(singleMovie);
     })
     .catch(error => console.log(error)); 
-    console.log(watchedMovies);
     return queueMovies;
 })
 

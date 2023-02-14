@@ -131,7 +131,7 @@ export const getMovieDetails = async movie_id => {
     .then(function (response) {
       // handle success
 
-      console.log(response.data);
+      //console.log(response.data);
       movieID = response.data.id
 
       //console.log(response.data);
