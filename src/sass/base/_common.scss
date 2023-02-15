@@ -1,5 +1,10 @@
 @import '~node_modules/modern-normalize/modern-normalize.css';
 
+body {
+  min-height: 100vh;
+  position: relative;
+}
+
 h1,
 h2,
 h3,
@@ -36,10 +41,19 @@ li {
   display: none;
 }
 
-
 .visually-hidden {
   display: none;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+}
+
+.content-wrap {
+  padding-bottom: 100px; //footer height - to position footer correctly on the page
+}
+
+@media screen and (min-width: 768px) {
+  .content-wrap {
+    padding-bottom: 77px; //footer height - to position footer correctly on the page
+  }
 }
