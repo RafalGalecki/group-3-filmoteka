@@ -19,64 +19,46 @@ const queue = localStorage.getItem(LOCALSTORAGE_QUE) || '';
 const watchedParsed = JSON.parse(watched);
 const queueParsed = JSON.parse(queue);
 
-// console.log(watchedParsed);
-
 const headerHome = document.querySelector('.header-home');
 const headerLibrary = document.querySelector('.header-library');
-const libraryLink = document.querySelector('#library');
-const homeLink = document.querySelector('#home');
 const cardsLibraryWatched = document.querySelector('.cards-watched-container');
+
 
 export { watchedParsed, queueParsed, watchedMoviesContainer, headerLibrary };
 
-// headerHome.addEventListener('click', libraryHidden);
-// headerLibrary.addEventListener('click', homeHidden);
+headerLibrary.addEventListener('click', libraryHidden);
+headerHome.addEventListener('click', homeHidden);
 
-libraryLink.addEventListener('click', () => {
-  refreshRendering();
-  headerHome.classList.add('visually-hidden');
-  moviesContainer.classList.add('visually-hidden');
-  headerLibrary.classList.remove('visually-hidden');
-  cardsLibraryWatched.classList.remove('visually-hidden');
-});
 
-homeLink.addEventListener('click', () => {
-  loadMovies();
-  headerHome.classList.remove('visually-hidden');
-  moviesContainer.classList.remove('visually-hidden');
-  headerLibrary.classList.add('visually-hidden');
-  cardsLibraryWatched.classList.add('visually-hidden');
-});
+function homeHidden(event) {
+  if (event.target.nodeName !== 'A') {
+      return;
+    }
 
-// function homeHidden(event) {
-//   // if (event.target.nodeName !== 'BUTTON') {
-//   //     return;
-//   //   }
+    if (event.target.classList.contains('js-library')) {
 
-//     if (event.target.classList.contains('js-library')) {
+    refreshRendering();
+    headerHome.classList.add('visually-hidden');
+    moviesContainer.classList.add('visually-hidden');
+    headerLibrary.classList.remove('visually-hidden');
+    cardsLibraryWatched.classList.remove('visually-hidden');
+    }
+}
 
-//       refreshRendering();
-//     headerHome.classList.add('visually-hidden');
-//     moviesContainer.classList.add('visually-hidden');
-//     headerLibrary.classList.remove('visually-hidden');
-//     cardsLibraryWatched.classList.remove('visually-hidden');
-//     }
-// }
+function libraryHidden(event) {
+   if (event.target.nodeName !== 'A') {
+      return;
+    }
 
-// function libraryHidden(event) {
-//    // if (event.target.nodeName !== 'BUTTON') {
-//   //     return;
-//   //   }
+  if (event.target.classList.contains('js-home-page')) {
+    loadMovies();
+    headerHome.classList.remove('visually-hidden');
+    moviesContainer.classList.remove('visually-hidden');
+    headerLibrary.classList.add('visually-hidden');
+    cardsLibraryWatched.classList.add('visually-hidden');
 
-//   if (event.target.classList.contains('js-logo')) {
-//     loadMovies();
-//     headerHome.classList.remove('visually-hidden');
-//     moviesContainer.classList.remove('visually-hidden');
-//     headerLibrary.classList.add('visually-hidden');
-//     cardsLibraryWatched.classList.add('visually-hidden');
-
-//   }
-// }
+  }
+}
 
 let watchedMovies = [];
 
