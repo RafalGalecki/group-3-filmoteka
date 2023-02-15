@@ -8,12 +8,12 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
   const pages = totalPages;
   const paginationContainer = document.getElementById('pagination-numbers');
   paginationContainer.innerHTML = '';
-  const buttonsLimit = 9;
+ 
 
-  for (let i = 1; i <= pages; i++) {
+  for (let i = 1; i <= totalPages; i++) {
     const pageBtn = document.createElement('button');
     pageBtn.setAttribute('type', 'button');
-    pageBtn.classList.add('pagination__btn');
+    //pageBtn.classList.add('visible');
     pageBtn.setAttribute('value', `${i}`);
     pageBtn.setAttribute('id', `${i}`);
     pageBtn.innerText = i;
@@ -22,6 +22,17 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     }
     paginationContainer.append(pageBtn);
   }
+
+  limitDisplayedButtons(totalPages);
+
+  // first button
+  // on first search load(page 1) it makes button 1 active
+  const firstBtn = document.getElementById('1');
+  //firstBtn.classList.remove('visible');
+  firstBtn.classList.add('activebtn');
+
+  // last button
+  const lastBtn = document.getElementById(`${totalPages}`);
 
   //Arrow buttons prev and next
   const prevBtn = document.createElement('button');
@@ -40,38 +51,156 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
   nextBtn.style.backgroundColor = '#ff6b08';
   paginationContainer.append(nextBtn);
 
-  // on first search load (page 1) it makes button 1 active
-  const pageBtnFirst = document.getElementById('1');
-  pageBtnFirst.classList.add('activebtn');
+  // ... buttons
+
+  const prevStepBtn = document.createElement('span');
+  //prevStepBtn.setAttribute('type', 'button');
+  prevStepBtn.setAttribute('value', '');
+  prevStepBtn.setAttribute('id', 'prevStepButton');
+  //prevStepBtn.classList.add('hidden');
+  prevStepBtn.innerHTML = '...';
+  prevStepBtn.style.backgroundColor = '#C4B454';
+
+  firstBtn.after(prevStepBtn);
+
+  const nextStepBtn = document.createElement('span');
+  //nextStepBtn.setAttribute('type', 'button');
+  nextStepBtn.setAttribute('value', '');
+  nextStepBtn.setAttribute('id', 'nextStepButton');
+  nextStepBtn.innerHTML = '...';
+  nextStepBtn.style.backgroundColor = '#C4B454';
+
+  lastBtn.before(nextStepBtn);
+  if (selectedPage > totalPages - 5) {
+    nextStepBtn.classList.toggle('hidden');
+  }
+  // LISTENER ---------------------------------------
+  //////////////////////////////////////////////////////
 
   paginationContainer.addEventListener('click', event => {
-    //event.preventDefault();
-    //disableButtons(prevBtn, nextBtn, selectedPage, totalPages);
+    event.preventDefault();
 
-    if (event.target.id == 'prevButton') {
+    
+
+    // handle 'previous' button
+
+    if (event.target) {
+      console.log(
+        'NAJPIERW: ',
+        'id:',
+        event.target.id,
+        'selectedPage: ',
+        selectedPage
+      );
+    }
+    if (event.target.id === 'prevButton') {
       if (selectedPage === 1) {
         return;
       } else {
         console.log('PREV', selectedPage);
         selectedPage -= 1;
         console.log('PREV after', selectedPage);
+        if (selectedPage < totalPages - 6) {
+          let hideButton = document.getElementById(`${selectedPage + 5}`);
+          hideButton.classList.add('hidden');
+        }
+        let showButton = document.getElementById(`${selectedPage}`);
+        showButton.classList.remove('hidden');
+
         prevBtn.setAttribute('value', `${selectedPage}`);
       }
     }
+    // handle 'next' button
     if (event.target.id == 'nextButton') {
       if (selectedPage === totalPages) {
         return;
       } else {
-        console.log('NEXT', selectedPage);
+        console.log('NEXT before', selectedPage);
+
         selectedPage += 1;
         console.log('NEXT after', selectedPage);
+        if (selectedPage > 6) {
+          let hideButton = document.getElementById(`${selectedPage - 5}`);
+          hideButton.classList.add('hidden');
+        }
+        let showButton = document.getElementById(`${selectedPage}`);
+        showButton.classList.remove('hidden');
+
         nextBtn.setAttribute('value', `${selectedPage}`);
       }
     }
 
+    // ATTENTION IT MUST BE HERE----------------------------
     selectedPage = Number(event.target.value);
+    // after that selected page = shown page
 
-    console.log('event.target.id', event.target.id);
+    // first & last logic
+    //first button
+    const firstPageButton = document.getElementById('1');
+    if (event.target == firstPageButton) {
+      for (i = 1; i < 6; i++) {
+        const buttonToShow = document.getElementById(`${i}`);
+        buttonToShow.classList.add('hidden');
+        buttonToShow.classList.remove('hidden');
+      }
+      for (i = 6; i < totalPages; i++) {
+        const buttonToHide = document.getElementById(`${i}`);
+        buttonToHide.classList.add('hidden');
+      }
+    }
+    // last button
+    const lastPageButton = document.getElementById(`${totalPages}`);
+    if (event.target == lastPageButton) {
+      for (i = totalPages - 6; i <= totalPages; i++) {
+        const buttonToShow = document.getElementById(`${i}`);
+        buttonToShow.classList.add('hidden');
+        buttonToShow.classList.remove('hidden');
+      }
+      for (i = 2; i <= totalPages - 6; i++) {
+        const buttonToHide = document.getElementById(`${i}`);
+        buttonToHide.classList.add('hidden');
+      }
+    }
+
+    if (event.target) {
+      console.log(
+        'PO ZDEFINIOWANIU SELECTED: ',
+        'id:',
+        event.target.id,
+        'selectedPage: ',
+        selectedPage
+      );
+    }
+    // // handle ... 'previous' button (...)
+    // if (Number(event.target.value) > 5 || selectedPage > 5) {
+    //   prevStepBtn.classList.remove('hidden');
+    // }
+    // if (Number(event.target.value) <= 5 || selectedPage <= 5) {
+    //   prevStepBtn.classList.add('hidden');
+    // }
+    // // handle ... 'next' button (...)
+    // if (
+    //   Number(event.target.value) >= totalPages - 5 ||
+    //   selectedPage >= totalPages - 5
+    // ) {
+    //   nextStepBtn.classList.add('hidden');
+    // }
+    // if (
+    //   Number(event.target.value) < totalPages - 5 ||
+    //   selectedPage < totalPages - 5
+    // ) {
+    //   nextStepBtn.classList.remove('hidden');
+    // }
+
+    if (event.target) {
+      console.log(
+        'PO ZDEFINIOWANIU TRZYKROPKÓW: ',
+        'id:',
+        event.target.id,
+        'selectedPage: ',
+        selectedPage
+      );
+    }
 
     const preloader = document.getElementById('preloader');
     //const cardsContainer = document.querySelector('.cards-container');
@@ -116,16 +245,25 @@ function setActivePage(currentPage) {
   activeBtn.classList.add('activebtn');
 }
 
-function disableButtons(prevBtn, nextBtn, selectedPage, totalpages) {
-  //const prevBtn = document.getElementById('prevButton');
-  //const nextBtn = document.getElementById('nextButton');
+// function disableButtons(prevBtn, nextBtn, selectedPage, totalpages) {
+//   if (selectedPage == 1) {
+//     prevBtn.setAttribute('disabled', true);
+//   }
+//   prevBtn.setAttribute('disabled', false);
+//   if (selectedPage == totalpages) {
+//     nextBtn.setAttribute('disabled', true);
+//   }
+//   nextBtn.setAttribute('disabled', false);
+// }
 
-  prevBtn.setAttribute('disabled', false);
-  nextBtn.setAttribute('disabled', false);
-  if (selectedPage == 1) {
-    prevBtn.setAttribute('disabled', true);
-  }
-  if (selectedPage == totalpages) {
-    nextBtn.setAttribute('disabled', true);
+// Limit page-numbered buttons displayed
+
+function limitDisplayedButtons(totalPages) {
+  if (totalPages > 7) {
+    for (let i = 7; i < totalPages; i++) {
+      const btnHidden = document.getElementById(`${i}`);
+      //btnHidden.classList.remove('visible');
+      btnHidden.classList.add('hidden');
+    }
   }
 }
