@@ -86,6 +86,18 @@
     outline: none;
     color: inherit;
   }
+
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.warning {
+  color: #ff001b;
+  font-size: 14px;
+  text-align: center;
 }
 
 @media (min-width: 768px) {

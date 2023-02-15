@@ -1,18 +1,21 @@
+import '../sass/components/_modal-card.scss';
 import { moviesContainer } from './cards-home';
-import { getGenres, getMovieDetails } from './fetch';
+import { getMovieDetails } from './fetch';
 import { saveToWatched } from './localStorage';
 import { saveToQue } from './localStorage';
 import { movieID } from './fetch';
-//import { merge } from 'lodash';
+
 import merge from 'lodash.merge';
+
 
 const modal = document.querySelector('.modal-card');
 
 export const createModalCard = el => {
   const btnClose = document.createElement('button');
-  btnClose.classList.add('btn--close');
-  btnClose.setAttribute('id', 'close-modal');
-  btnClose.textContent = 'close';
+
+  btnClose.classList.add('btn', 'btn--close');
+  btnClose.textContent = '✖';
+
 
   const modalImage = document.createElement('img');
   modalImage.classList.add('modal-card__img');
@@ -76,12 +79,15 @@ export const createModalCard = el => {
   modalMovieDesc.classList.add('modal-card__movie-desc');
   modalMovieDesc.textContent = el.overview;
 
+  const btnWrapper = document.createElement('div');
+  btnWrapper.classList.add('modal-card__buttons');
+
   const modalBtnAddWatch = document.createElement('button');
-  modalBtnAddWatch.classList.add('btn__addToWatched');
+  modalBtnAddWatch.classList.add('btn', 'btn__addToWatched');
   modalBtnAddWatch.textContent = 'ADD TO WATCHED';
 
   const modalBtnAddQue = document.createElement('button');
-  modalBtnAddQue.classList.add('btn__addToQue');
+  modalBtnAddQue.classList.add('btn', 'btn__addToQue');
   modalBtnAddQue.textContent = 'ADD TO QUE';
 
   modal.append(
@@ -91,36 +97,39 @@ export const createModalCard = el => {
     modalMovieInfoList,
     modalMovieAbout,
     modalMovieDesc,
-    modalBtnAddWatch,
-    modalBtnAddQue
+    btnWrapper
   );
-  let watched = []
-  const watchedData = JSON.parse(localStorage.getItem('watched'))
+
+  btnWrapper.append(modalBtnAddWatch, modalBtnAddQue);
+
+  //Adding EvenListiner to watched and Que buttons
+  //Adding logic for their textContent
+  let watched = [];
+  const watchedData = JSON.parse(localStorage.getItem('watched'));
 
   if (watchedData != null) {
-    watched.push(...watchedData)
+    watched.push(...watchedData);
   }
 
   if (watched.includes(movieID)) {
-    modalBtnAddWatch.textContent = "REMOVE FROM WATCHED"
+    modalBtnAddWatch.textContent = 'REMOVE FROM WATCHED';
+    modalBtnAddQue.textContent = 'ALREADY WATCHED';
   }
 
-  modalBtnAddWatch.addEventListener("click", saveToWatched)
+  modalBtnAddWatch.addEventListener('click', saveToWatched);
 
-  let que = []
-  const queData = JSON.parse(localStorage.getItem('que'))
-  
+  let que = [];
+  const queData = JSON.parse(localStorage.getItem('que'));
+
   if (queData != null) {
-      que.push(...queData)
+    que.push(...queData);
   }
-  
+
   if (que.includes(movieID)) {
-      modalBtnAddQue.textContent = "REMOVE FROM QUE"
+    modalBtnAddQue.textContent = 'REMOVE FROM QUE';
   }
-  
-   modalBtnAddQue.addEventListener("click", saveToQue)
 
-
+  modalBtnAddQue.addEventListener('click', saveToQue);
 };
 
 const displayMovieInfo = async e => {
@@ -128,21 +137,35 @@ const displayMovieInfo = async e => {
 
   getMovieDetails(movie_id).then(el => {
     createModalCard(el);
-    modal.parentElement.classList.toggle('visibility');
+    modal.parentElement.classList.toggle('is-hidden');
   });
 };
 
 function hideModal() {
-  modal.parentElement.classList.toggle('visibility');
+  modal.parentElement.classList.add('is-hidden');
   modal.replaceChildren();
-  modal.removeEventListener('click', hideModal);
+
+  //   modal.removeEventListener('click', hideModal);
+  //   window.removeEventListener('keydown',hideModal)
+
 }
 
 moviesContainer.addEventListener('click', displayMovieInfo);
 
 modal.addEventListener('click', el => {
-  btnCloseModal = document.getElementsByClassName('btn--close')[0];
-  if (el.target === btnCloseModal) {
+  if (el.target.classList.contains('btn--close')) {
+    hideModal();
+  }
+});
+
+window.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    hideModal();
+  }
+});
+
+modal.parentElement.addEventListener('click', el => {
+  if (el.target.classList.contains('modal-container')) {
     hideModal();
   }
 });

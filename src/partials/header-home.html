@@ -4,24 +4,32 @@
         <div class="header-home__container">
             <div class="menu">
                 <div class="logo">
-                    <svg class="logo__icon" width="24px" height="24px">
+                    <a href="#"><svg class="logo__icon" width="24px" height="24px">
                         <use href="./images/icons.svg#icon-logo-icon"></use>
-                    </svg>
+                    </svg></a>
                     <a href="#" class="link logo__text">Filmoteka</a>
                 </div>
                 <nav>
                     <ul class="nav__list">
+
                         <li class="nav__item"><a href="#" class="link nav__link--active" >home</a></li>
                         <li class="nav__item"><a  id="library" href="#" class="link nav__link" >my library</a></li>
+
                     </ul>
                 </nav>
             </div>
             <form class="search-form" id="search-form">
                 <input type="text" name="searchQuery" autocomplete="off" placeholder="Search movies..." />
-                <svg class="search-form__icon" width="12px" height="12px">
-                        <use href="./images/icons.svg#icon-search-icon"></use>
-                    </svg>
+
+                
+                
+
+                <button type="submit"><svg class="search-form__icon" width="12px" height="12px">
+                    <use href="./images/icons.svg#icon-search-icon"></use>
+                </svg></button>
+
             </form>
+            <p class="warning"></p>
         </div>
     </div>
 </header>
