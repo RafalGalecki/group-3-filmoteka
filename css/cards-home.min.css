@@ -1,0 +1,1 @@
+.cards-container{display:flex;flex-wrap:wrap;gap:10px}.movie-card{display:flex;flex-direction:column;width:280px}.movie-card__img{display:block;width:100%;height:400px;-o-object-fit:cover;object-fit:cover;overflow:hidden;border-radius:5px}.movie-card__title{font-size:16px;flex-grow:1}.movie-card__info{font-size:14px}/*# sourceMappingURL=cards-home.min.css.map */

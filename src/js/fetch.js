@@ -139,7 +139,9 @@ export const getMovieDetails = async movie_id => {
     .get(urlForMovieDetails)
     .then(function (response) {
       // handle success
+
       movieID = response.data.id;
+
 
       return response.data;
     })
@@ -153,3 +155,8 @@ export const getMovieDetails = async movie_id => {
 
   return response;
 };
+
+
+   getMovieDetails();
+   
+
