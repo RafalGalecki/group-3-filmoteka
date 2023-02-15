@@ -100,7 +100,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
         console.log('PREV', selectedPage);
         selectedPage -= 1;
         console.log('PREV after', selectedPage);
-        if (selectedPage < totalPages - 6) {
+        if (selectedPage < totalPages - 5) {
           let hideButton = document.getElementById(`${selectedPage + 5}`);
           hideButton.classList.add('hidden');
         }
