@@ -52,15 +52,22 @@ export const createModalCard = el => {
     movieInfoDetails.classList.add('modal-card__list-details');
     movieInfoDetails.textContent = movieInfoTypesData[index];
 
+
+//adding details to Vote/Votes section
     if (index === 0) {
       let movieInfoDetails = document.createElement('span');
       movieInfoDetails.classList.add(
         'modal-card__list-details',
         'modal-card__list-details--avg-color'
       );
-      movieInfoDetails.textContent = `${el.vote_average}`;
+      let movieInfoSkewLine = document.createElement('span');
+      movieInfoSkewLine.classList.add('modal-card__skew-line');
+
+      movieInfoSkewLine.textContent = '/';
+      movieInfoDetails.textContent = `${el.vote_average.toFixed(1)}`;
 
       movieInfoItem.append(movieInfoDetails);
+      movieInfoItem.append(movieInfoSkewLine);
     }
 
     modalMovieInfoList.appendChild(movieInfoItem);
@@ -86,9 +93,12 @@ export const createModalCard = el => {
   modalBtnAddQue.classList.add('btn', 'btn__addToQue');
   modalBtnAddQue.textContent = 'ADD TO QUE';
 
-  modal.append(
-    btnClose,
-    modalImage,
+  const movieDescWrapper = document.createElement('div');
+  movieDescWrapper.classList.add('modal-card__movie-data');
+
+  modal.append(btnClose, modalImage, movieDescWrapper);
+
+  movieDescWrapper.append(
     modalHeader,
     modalMovieInfoList,
     modalMovieAbout,
