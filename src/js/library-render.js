@@ -1,6 +1,3 @@
-import { getGenres, getMovieDetails } from './fetch';
-import { refreshRendering } from './refreshrendering';
-import { moviesContainer } from './cards-home';
 
 import {
   getWatchedMovies,
@@ -8,14 +5,8 @@ import {
   renderWatchedMovies,
 } from './library';
 import {
-  watchedParsed,
-  queueParsed,
-  watchedMoviesContainer,
   headerLibrary,
 } from './library';
-
-const watchedHeaderBtn = document.querySelector('.js-btn-watched');
-const queueHeaderBtn = document.querySelector('.js-btn-queue');
 
 headerLibrary.addEventListener('click', libraryEvents);
 
