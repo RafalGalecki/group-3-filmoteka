@@ -18,9 +18,9 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
       pageBtn.setAttribute('value', `${i}`);
       pageBtn.setAttribute('id', `page${i}`);
       pageBtn.innerText = i;
-      if (i === Number(selectedPage)) {
-        pageBtn.setAttribute('selected', true);
-      }
+      // if (i === Number(selectedPage)) {
+      //   pageBtn.setAttribute('selected', true);
+      // }
       paginationContainer.append(pageBtn);
     }
 
@@ -57,9 +57,9 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
 
     const prevStepBtn = document.createElement('span');
     //prevStepBtn.setAttribute('type', 'button');
-    prevStepBtn.setAttribute('value', '');
+    //prevStepBtn.setAttribute('value', '');
     prevStepBtn.setAttribute('id', 'prevStepButton');
-    //prevStepBtn.classList.add('hidden');
+    prevStepBtn.classList.add('hidden');
     prevStepBtn.innerHTML = '...';
     prevStepBtn.style.backgroundColor = '#C4B454';
 
@@ -67,15 +67,15 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
 
     const nextStepBtn = document.createElement('span');
     //nextStepBtn.setAttribute('type', 'button');
-    nextStepBtn.setAttribute('value', '');
+    //nextStepBtn.setAttribute('value', '');
     nextStepBtn.setAttribute('id', 'nextStepButton');
     nextStepBtn.innerHTML = '...';
     nextStepBtn.style.backgroundColor = '#C4B454';
 
     lastBtn.before(nextStepBtn);
-    if (selectedPage > totalPages - 5) {
-      nextStepBtn.classList.toggle('hidden');
-    }
+    // if (selectedPage > totalPages - 5) {
+    //   nextStepBtn.classList.toggle('hidden');
+    // }
   }
   console.log('totalpages is', totalPages);
 
@@ -136,12 +136,12 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     // first button
     const firstPageButton = document.getElementById('page1');
     if (event.target == firstPageButton && totalPages > 6) {
-      for (i = 1; i < 6; i++) {
+      for (i = 1; i <= 6; i++) {
         const buttonToShow = document.getElementById(`page${i}`);
         buttonToShow.classList.add('hidden');
         buttonToShow.classList.remove('hidden');
       }
-      for (i = 6; i < totalPages; i++) {
+      for (i = 7; i < totalPages; i++) {
         const buttonToHide = document.getElementById(`page${i}`);
         buttonToHide.classList.add('hidden');
       }
@@ -162,15 +162,14 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     // Ellipsis buttons logic
     const prevStepBtn = document.getElementById('prevStepButton');
     const nextStepBtn = document.getElementById('nextStepButton');
-    if (Number(event.target.value) === 1 || selectedPage === 1) {
-      console.log('OOOOOOOOOOOOOOO', Number(event.target.value), selectedPage);
-      prevStepBtn.classList.add('hidden');
-    }
+    // if (Number(event.target.value) === 1 || selectedPage === 1) {
+    //   console.log('OOOOOOOOOOOOOOO', Number(event.target.value), selectedPage);
+    //   prevStepBtn.classList.add('hidden');
+    // }
     if (Number(event.target.value) <= 5 || selectedPage <= 5) {
-      prevStepBtn.classList.remove('hidden');
+      //prevStepBtn.classList.remove('hidden');
       prevStepBtn.classList.add('hidden');
 
-      nextStepBtn.classList.add('hidden');
       nextStepBtn.classList.remove('hidden');
     }
     if (
