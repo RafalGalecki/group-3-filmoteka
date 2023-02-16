@@ -15,7 +15,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     pageBtn.setAttribute('type', 'button');
     //pageBtn.classList.add('visible');
     pageBtn.setAttribute('value', `${i}`);
-    pageBtn.setAttribute('id', `${i}`);
+    pageBtn.setAttribute('id', `page${i}`);
     pageBtn.innerText = i;
     if (i === Number(selectedPage)) {
       pageBtn.setAttribute('selected', true);
@@ -139,12 +139,12 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     const firstPageButton = document.getElementById('1');
     if (event.target == firstPageButton) {
       for (i = 1; i < 6; i++) {
-        const buttonToShow = document.getElementById(`${i}`);
+        const buttonToShow = document.getElementById(`page${i}`);
         buttonToShow.classList.add('hidden');
         buttonToShow.classList.remove('hidden');
       }
       for (i = 6; i < totalPages; i++) {
-        const buttonToHide = document.getElementById(`${i}`);
+        const buttonToHide = document.getElementById(`page${i}`);
         buttonToHide.classList.add('hidden');
       }
     }
@@ -152,12 +152,12 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     const lastPageButton = document.getElementById(`${totalPages}`);
     if (event.target == lastPageButton) {
       for (i = totalPages - 6; i <= totalPages; i++) {
-        const buttonToShow = document.getElementById(`${i}`);
+        const buttonToShow = document.getElementById(`page${i}`);
         buttonToShow.classList.add('hidden');
         buttonToShow.classList.remove('hidden');
       }
       for (i = 2; i <= totalPages - 6; i++) {
-        const buttonToHide = document.getElementById(`${i}`);
+        const buttonToHide = document.getElementById(`page${i}`);
         buttonToHide.classList.add('hidden');
       }
     }
@@ -261,7 +261,7 @@ function setActivePage(currentPage) {
 function limitDisplayedButtons(totalPages) {
   if (totalPages > 7) {
     for (let i = 7; i < totalPages; i++) {
-      const btnHidden = document.getElementById(`${i}`);
+      const btnHidden = document.getElementById(`page${i}`);
       //btnHidden.classList.remove('visible');
       btnHidden.classList.add('hidden');
     }
