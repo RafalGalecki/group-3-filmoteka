@@ -4,7 +4,7 @@
 
 @use './components/header-home';
 @use './components/header-library';
-// @use './components/cards-home'; --> components/cards-home not found and creating error
+@use './components/cards-home';
 @use './components/cards-library';
 @use './components/pagination';
 @use './components/footer';
