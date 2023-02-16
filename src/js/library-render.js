@@ -1,34 +1,30 @@
-import { getGenres, getMovieDetails } from './fetch';
-import { refreshRendering } from './refreshrendering';
-import { moviesContainer } from './cards-home';
-
+import Notiflix from 'notiflix';
 import {
   getWatchedMovies,
   getQueueMovies,
   renderWatchedMovies,
 } from './library';
-import {
-  watchedParsed,
-  queueParsed,
-  watchedMoviesContainer,
-  headerLibrary,
-} from './library';
-
-const watchedHeaderBtn = document.querySelector('.js-btn-watched');
-const queueHeaderBtn = document.querySelector('.js-btn-queue');
+import { headerLibrary } from './library';
 
 headerLibrary.addEventListener('click', libraryEvents);
 
 function libraryEvents(event) {
+  event.preventDefault();
   if (event.target.nodeName !== 'BUTTON') {
     return;
   }
 
   if (event.target.classList.contains('js-btn-watched')) {
+    // if (getWatchedMovies = []) {
+    //  // Notiflix.Report.info("Oops!", "It's empty in here. Go back and add your favorite movies.", "Ok");
+    // }
     renderWatchedMovies(getWatchedMovies[0]);
   }
 
   if (event.target.classList.contains('js-btn-queue')) {
+    // if (getQueueMovies = []) {
+    //   Notiflix.Report.info("Oops!", "It's empty in here. Go back and add your favorite movies.", "Ok");
+    // }
     renderWatchedMovies(getQueueMovies[0]);
   }
 }

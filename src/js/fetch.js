@@ -157,6 +157,3 @@ export const getMovieDetails = async movie_id => {
 };
 
 
-   getMovieDetails();
-   
-
