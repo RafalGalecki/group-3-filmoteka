@@ -4,25 +4,18 @@ import { getMovieDetails } from './fetch';
 import { saveToWatched } from './localStorage';
 import { saveToQue } from './localStorage';
 import { movieID } from './fetch';
+// import { after } from 'lodash';
 //import { merge } from 'lodash';
 
 const modal = document.querySelector('.modal-card');
+const btnClose = modal.querySelector('.btn--close');
 
 export const createModalCard = el => {
-  const btnClose = document.createElement('button');
-  btnClose.classList.add('btn', 'btn--close');
-
-  const btnImg = document.createElement('img');
-  btnImg.setAttribute('src', '../images/close2x.png');
-  btnImg.setAttribute('alt','close');
-
-  btnClose.append(btnImg);
-
   const modalImage = document.createElement('img');
   modalImage.classList.add('modal-card__img');
   modalImage.setAttribute(
     'src',
-    `https://image.tmdb.org/t/p/w185${el.poster_path}`
+    `https://image.tmdb.org/t/p/w300${el.poster_path}`
   );
   modalImage.setAttribute('alt', `${el.title}`);
 
@@ -30,8 +23,13 @@ export const createModalCard = el => {
   modalHeader.classList.add('modal-card__title');
   modalHeader.textContent = el.title;
 
-  const modalMovieInfoList = document.createElement('ul');
-  modalMovieInfoList.classList.add('modal-card__list');
+  //create container for lists
+  const listsContainer = document.createElement('div');
+  listsContainer.classList.add('modal-card__list-container');
+
+  //create movie list categories for modal
+  const movieCategoriesList = document.createElement('ul');
+  movieCategoriesList.classList.add('modal-card__list');
 
   const movieInfoTypes = [
     'Vote/Votes',
@@ -40,44 +38,59 @@ export const createModalCard = el => {
     'Genre',
   ];
 
+  movieInfoTypes.map(content => {
+    let movieInfoItem = document.createElement('li');
+    movieInfoItem.classList.add('modal-card__list-item');
+    movieInfoItem.textContent = content;
+    movieCategoriesList.appendChild(movieInfoItem);
+  });
+
   let genresDesc = el.genres.map(el => el.name);
 
   let movieInfoTypesData = [
     `${el.vote_count}`,
     `${el.popularity}`,
     `${el.original_title}`,
-    `${genresDesc}`,
+    `${genresDesc.join(', ')}`,
   ];
 
-  movieInfoTypes.map((content, index) => {
-    let movieInfoItem = document.createElement('li');
-    movieInfoItem.classList.add('modal-card__list-item');
-    movieInfoItem.textContent = content;
+  //create list with values for movie categories list
+  const movieCategoriesValues = document.createElement('ul');
+  movieCategoriesValues.classList.add('modal-card__list');
 
-    let movieInfoDetails = document.createElement('span');
-    movieInfoDetails.classList.add('modal-card__list-details');
-    movieInfoDetails.textContent = movieInfoTypesData[index];
+  movieInfoTypesData.map((content, index) => {
+    let movieInfoValue = document.createElement('li');
+    movieInfoValue.classList.add('modal-card__list-details');
+    movieInfoValue.textContent = content;
 
-    //adding details to Vote/Votes section
+    // adding details to Vote/Votes section
     if (index === 0) {
+      movieInfoValue.textContent = '';
+
       let movieInfoDetails = document.createElement('span');
       movieInfoDetails.classList.add(
         'modal-card__list-details',
         'modal-card__list-details--avg-color'
       );
-      let movieInfoSkewLine = document.createElement('span');
-      movieInfoSkewLine.classList.add('modal-card__skew-line');
-
-      movieInfoSkewLine.textContent = '/';
       movieInfoDetails.textContent = `${el.vote_average.toFixed(1)}`;
 
-      movieInfoItem.append(movieInfoDetails);
-      movieInfoItem.append(movieInfoSkewLine);
+      let movieInfoSkewLine = document.createElement('span');
+      movieInfoSkewLine.classList.add('modal-card__skew-line');
+      movieInfoSkewLine.textContent = '/';
+
+      let movieInfoContent = document.createElement('span');
+      movieInfoContent.classList.add('modal-card__votes');
+      movieInfoContent.textContent = content;
+
+      movieInfoValue.append(movieInfoDetails);
+      movieInfoValue.append(movieInfoSkewLine);
+      movieInfoValue.append(movieInfoContent);
     }
 
-    modalMovieInfoList.appendChild(movieInfoItem);
-    movieInfoItem.appendChild(movieInfoDetails);
+    movieCategoriesValues.appendChild(movieInfoValue);
   });
+
+  listsContainer;
 
   const modalMovieAbout = document.createElement('h3');
   modalMovieAbout.classList.add('modal-card__movie-about');
@@ -105,11 +118,13 @@ export const createModalCard = el => {
 
   movieDescWrapper.append(
     modalHeader,
-    modalMovieInfoList,
+    listsContainer,
     modalMovieAbout,
     modalMovieDesc,
     btnWrapper
   );
+
+  listsContainer.append(movieCategoriesList, movieCategoriesValues);
 
   btnWrapper.append(modalBtnAddWatch, modalBtnAddQue);
 
@@ -161,11 +176,7 @@ function hideModal() {
 
 moviesContainer.addEventListener('click', displayMovieInfo);
 
-modal.addEventListener('click', el => {
-  if (el.target.classList.contains('btn--close')) {
-    hideModal();
-  }
-});
+btnClose.addEventListener('click', hideModal);
 
 window.addEventListener('keydown', event => {
   if (event.key === 'Escape') {
