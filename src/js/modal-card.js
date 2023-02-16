@@ -1,22 +1,22 @@
 import '../sass/components/_modal-card.scss';
 import { moviesContainer } from './cards-home';
-import { watchedMoviesContainer } from './library';
 import { getMovieDetails } from './fetch';
 import { saveToWatched } from './localStorage';
 import { saveToQue } from './localStorage';
 import { movieID } from './fetch';
-
-import merge from 'lodash.merge';
-
+//import { merge } from 'lodash';
 
 const modal = document.querySelector('.modal-card');
 
 export const createModalCard = el => {
   const btnClose = document.createElement('button');
-
   btnClose.classList.add('btn', 'btn--close');
-  btnClose.textContent = '✖';
 
+  const btnImg = document.createElement('img');
+  btnImg.setAttribute('src', '../images/close2x.png');
+  btnImg.setAttribute('alt','close');
+
+  btnClose.append(btnImg);
 
   const modalImage = document.createElement('img');
   modalImage.classList.add('modal-card__img');
@@ -41,6 +41,7 @@ export const createModalCard = el => {
   ];
 
   let genresDesc = el.genres.map(el => el.name);
+
   let movieInfoTypesData = [
     `${el.vote_count}`,
     `${el.popularity}`,
@@ -57,15 +58,21 @@ export const createModalCard = el => {
     movieInfoDetails.classList.add('modal-card__list-details');
     movieInfoDetails.textContent = movieInfoTypesData[index];
 
+    //adding details to Vote/Votes section
     if (index === 0) {
       let movieInfoDetails = document.createElement('span');
       movieInfoDetails.classList.add(
         'modal-card__list-details',
         'modal-card__list-details--avg-color'
       );
-      movieInfoDetails.textContent = `${el.vote_average}`;
+      let movieInfoSkewLine = document.createElement('span');
+      movieInfoSkewLine.classList.add('modal-card__skew-line');
+
+      movieInfoSkewLine.textContent = '/';
+      movieInfoDetails.textContent = `${el.vote_average.toFixed(1)}`;
 
       movieInfoItem.append(movieInfoDetails);
+      movieInfoItem.append(movieInfoSkewLine);
     }
 
     modalMovieInfoList.appendChild(movieInfoItem);
@@ -91,9 +98,12 @@ export const createModalCard = el => {
   modalBtnAddQue.classList.add('btn', 'btn__addToQue');
   modalBtnAddQue.textContent = 'ADD TO QUE';
 
-  modal.append(
-    btnClose,
-    modalImage,
+  const movieDescWrapper = document.createElement('div');
+  movieDescWrapper.classList.add('modal-card__movie-data');
+
+  modal.append(btnClose, modalImage, movieDescWrapper);
+
+  movieDescWrapper.append(
     modalHeader,
     modalMovieInfoList,
     modalMovieAbout,
@@ -145,14 +155,11 @@ const displayMovieInfo = async e => {
 function hideModal() {
   modal.parentElement.classList.add('is-hidden');
   modal.replaceChildren();
-
   //   modal.removeEventListener('click', hideModal);
   //   window.removeEventListener('keydown',hideModal)
-
 }
 
 moviesContainer.addEventListener('click', displayMovieInfo);
-watchedMoviesContainer.addEventListener('click', displayMovieInfo);
 
 modal.addEventListener('click', el => {
   if (el.target.classList.contains('btn--close')) {
