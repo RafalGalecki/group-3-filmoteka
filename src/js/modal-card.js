@@ -1,5 +1,6 @@
 import '../sass/components/_modal-card.scss';
 import { moviesContainer } from './cards-home';
+import { watchedMoviesContainer } from './library';
 import { getMovieDetails } from './fetch';
 import { saveToWatched } from './localStorage';
 import { saveToQue } from './localStorage';
@@ -160,6 +161,7 @@ function hideModal() {
 }
 
 moviesContainer.addEventListener('click', displayMovieInfo);
+watchedMoviesContainer.addEventListener('click', displayMovieInfo);
 
 modal.addEventListener('click', el => {
   if (el.target.classList.contains('btn--close')) {
