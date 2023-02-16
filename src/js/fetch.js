@@ -70,7 +70,7 @@ export const getInitialMovies = async () => {
     })
     .catch(function (error) {
       // handle error
-      Notiflix.Notify.error(
+      Notiflix.Notify.warning(
         'We are sorry, but getting data is impossible in that moment'
       );
     });
@@ -148,7 +148,7 @@ export const getMovieDetails = async movie_id => {
     .catch(function (error) {
       // handle error
       // handle error
-      Notiflix.Notify.error(
+      Notiflix.Notify.warning(
         'We are sorry, but getting data is impossible in that moment'
       );
     });
