@@ -5,6 +5,7 @@ import { getGenres, getMovieDetails } from './fetch';
 import { loadMovies } from './cards-home';
 import { refreshRendering } from './refreshrendering';
 import { moviesContainer } from './cards-home';
+import Notiflix from 'notiflix';
 
 const watchedMoviesContainer = document.querySelector(
   '.cards-watched-container'
@@ -19,74 +20,54 @@ const queue = localStorage.getItem(LOCALSTORAGE_QUE) || '';
 const watchedParsed = JSON.parse(watched);
 const queueParsed = JSON.parse(queue);
 
-// console.log(watchedParsed);
-
 const headerHome = document.querySelector('.header-home');
 const headerLibrary = document.querySelector('.header-library');
-const libraryLink = document.querySelector('#library');
-const homeLink = document.querySelector('#home');
 const cardsLibraryWatched = document.querySelector('.cards-watched-container');
 
 export { watchedParsed, queueParsed, watchedMoviesContainer, headerLibrary };
 
-// headerHome.addEventListener('click', libraryHidden);
-// headerLibrary.addEventListener('click', homeHidden);
+headerLibrary.addEventListener('click', libraryHidden);
+headerHome.addEventListener('click', homeHidden);
 
-libraryLink.addEventListener('click', () => {
-  refreshRendering();
-  headerHome.classList.add('visually-hidden');
-  moviesContainer.classList.add('visually-hidden');
-  headerLibrary.classList.remove('visually-hidden');
-  cardsLibraryWatched.classList.remove('visually-hidden');
-});
+function homeHidden(event) {
+  if (event.target.nodeName !== 'A') {
+    return;
+  }
 
-homeLink.addEventListener('click', () => {
-  loadMovies();
-  headerHome.classList.remove('visually-hidden');
-  moviesContainer.classList.remove('visually-hidden');
-  headerLibrary.classList.add('visually-hidden');
-  cardsLibraryWatched.classList.add('visually-hidden');
-});
+  if (event.target.classList.contains('js-library')) {
+    renderWatchedMovies(getWatchedMovies[0]);
+    //refreshRendering();
+    headerHome.classList.add('visually-hidden');
+    moviesContainer.classList.add('visually-hidden');
+    headerLibrary.classList.remove('visually-hidden');
+    cardsLibraryWatched.classList.remove('visually-hidden');
+  }
+}
 
-// function homeHidden(event) {
-//   // if (event.target.nodeName !== 'BUTTON') {
-//   //     return;
-//   //   }
+function libraryHidden(event) {
+  if (event.target.nodeName !== 'A') {
+    return;
+  }
 
-//     if (event.target.classList.contains('js-library')) {
-
-//       refreshRendering();
-//     headerHome.classList.add('visually-hidden');
-//     moviesContainer.classList.add('visually-hidden');
-//     headerLibrary.classList.remove('visually-hidden');
-//     cardsLibraryWatched.classList.remove('visually-hidden');
-//     }
-// }
-
-// function libraryHidden(event) {
-//    // if (event.target.nodeName !== 'BUTTON') {
-//   //     return;
-//   //   }
-
-//   if (event.target.classList.contains('js-logo')) {
-//     loadMovies();
-//     headerHome.classList.remove('visually-hidden');
-//     moviesContainer.classList.remove('visually-hidden');
-//     headerLibrary.classList.add('visually-hidden');
-//     cardsLibraryWatched.classList.add('visually-hidden');
-
-//   }
-// }
+  if (event.target.classList.contains('js-home-page')) {
+    loadMovies();
+    headerHome.classList.remove('visually-hidden');
+    moviesContainer.classList.remove('visually-hidden');
+    headerLibrary.classList.add('visually-hidden');
+    cardsLibraryWatched.classList.add('visually-hidden');
+  }
+}
 
 let watchedMovies = [];
 
 export const getWatchedMovies = watchedParsed.map(el => {
   getMovieDetails(el)
     .then(result => {
-      const singleMovie = result;
-      watchedMovies.push(singleMovie);
+      const storageMovies = result;
+      watchedMovies.push(storageMovies);
     })
     .catch(error => console.log(error));
+
   return watchedMovies;
 });
 
@@ -95,8 +76,8 @@ let queueMovies = [];
 export const getQueueMovies = queueParsed.map(el => {
   getMovieDetails(el)
     .then(result => {
-      const singleMovie = result;
-      queueMovies.push(singleMovie);
+      const storageMovies = result;
+      queueMovies.push(storageMovies);
     })
     .catch(error => console.log(error));
   return queueMovies;
@@ -107,15 +88,16 @@ export function renderWatchedMovies(response) {
   //get genres for movies
   getGenres().then(el => {
     const genres = el;
+
     generateCards(response);
-    // //get movies with genres description
-    //   getInitialMovies().then(res => {
-    //     const initialMovies = moviesData;
+    //get movies with genres description
+    // getInitialMovies().then(res => {
+    //   const initialMovies = moviesData;
 
-    //     console.log(res.data);
+    //   console.log(res.data);
 
-    //     generateCards(res.data.results);
-    //   });
+    //   generateCards(res.data.results);
+    // });
   });
 
   //create set of movie cards
