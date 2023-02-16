@@ -2,6 +2,7 @@ import debounce from 'lodash.debounce';
 import { getSearchedMovies, getGenres } from './fetch';
 import { refreshRendering } from './refreshrendering';
 import { moviesContainer } from './cards-home';
+import { Notify } from 'notiflix';
 
 const DEBOUNCE_DELAY = 3000;
 export let searchInput;
@@ -21,12 +22,8 @@ const input = document.querySelector('#search-form input');
 export const handleSubmit = function (e) {
   e.preventDefault();
   searchInput = input.value.trim();
-
-  refreshRendering();
   getSearchedMovies(searchInput);
   clearInput();
-
-  //renderMovies(res.data.results);
 };
 
 form.addEventListener('submit', handleSubmit);
@@ -90,5 +87,3 @@ export function renderMovies(response) {
 function clearInput() {
   input.value = '';
 }
-
-
