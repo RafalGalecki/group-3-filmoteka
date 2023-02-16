@@ -75,7 +75,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 auto;
+  margin: 0 auto; 
 
   input {
     background-color: transparent;
@@ -85,12 +85,24 @@
     font-size: 14px;
     outline: none;
     color: inherit;
+
+    &:focus::placeholder {
+      color: transparent;
+    }
+  }
+
+  &__icon {
+    transition: transform 250ms;
   }
 
   button {
     background-color: transparent;
     border: none;
     cursor: pointer;
+
+    &:hover .search-form__icon {
+      transform: scale(1.5);
+    }
   }
 }
 

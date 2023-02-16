@@ -36,9 +36,9 @@ export const getSearchedMovies = async (searchInput, page = 1) => {
         return response;
 
       } else {
-        // if no results found - show warning and reset pagination
+        // if no results found - show warning
         warning.textContent = 'Search result not successful. Enter the correct movie name and try again.';
-        renderCardPaginator(1)
+       
       }
 
     })
