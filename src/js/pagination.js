@@ -10,6 +10,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
   const paginationContainer = document.getElementById('pagination-numbers');
   paginationContainer.innerHTML = '';
 
+  // generate buttons according to a totalPages variable
   if (totalPages >= 2) {
     for (let i = 1; i <= totalPages; i++) {
       const pageBtn = document.createElement('button');
@@ -23,7 +24,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
       // }
       paginationContainer.append(pageBtn);
     }
-
+    // handle how many buttons to show --------------------
     limitDisplayedButtons(totalPages);
 
     // first button
@@ -36,7 +37,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     // last button
     const lastBtn = document.getElementById(`page${totalPages}`);
 
-    //Arrow buttons prev and next
+    // generate Arrow Prev & Next buttons ------------------------
     const prevBtn = document.createElement('button');
     prevBtn.setAttribute('type', 'button');
     prevBtn.setAttribute('value', '');
@@ -53,29 +54,26 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     nextBtn.style.backgroundColor = '#ff6b08';
     paginationContainer.append(nextBtn);
 
-    // ... buttons
+    // generate ellipsis (...) buttons --------------------
 
-    const prevStepBtn = document.createElement('span');
-    //prevStepBtn.setAttribute('type', 'button');
-    //prevStepBtn.setAttribute('value', '');
-    prevStepBtn.setAttribute('id', 'prevStepButton');
-    prevStepBtn.classList.add('hidden');
-    prevStepBtn.innerHTML = '...';
-    prevStepBtn.style.backgroundColor = '#C4B454';
+    const backwardEllipsisBtn = document.createElement('button');
+    backwardEllipsisBtn.setAttribute('type', 'button');
+    backwardEllipsisBtn.setAttribute('value', '');
+    backwardEllipsisBtn.setAttribute('id', 'prevStepButton');
+    backwardEllipsisBtn.classList.add('hidden');
+    backwardEllipsisBtn.innerHTML = '...';
+    backwardEllipsisBtn.style.backgroundColor = '#C4B454';
 
-    firstBtn.after(prevStepBtn);
+    firstBtn.after(backwardEllipsisBtn);
 
-    const nextStepBtn = document.createElement('span');
-    //nextStepBtn.setAttribute('type', 'button');
-    //nextStepBtn.setAttribute('value', '');
-    nextStepBtn.setAttribute('id', 'nextStepButton');
-    nextStepBtn.innerHTML = '...';
-    nextStepBtn.style.backgroundColor = '#C4B454';
+    const forwardEllipsisBtn = document.createElement('button');
+    forwardEllipsisBtn.setAttribute('type', 'button');
+    forwardEllipsisBtn.setAttribute('value', '');
+    forwardEllipsisBtn.setAttribute('id', 'nextStepButton');
+    forwardEllipsisBtn.innerHTML = '...';
+    forwardEllipsisBtn.style.backgroundColor = '#C4B454';
 
-    lastBtn.before(nextStepBtn);
-    // if (selectedPage > totalPages - 5) {
-    //   nextStepBtn.classList.toggle('hidden');
-    // }
+    lastBtn.before(forwardEllipsisBtn);
   }
   console.log('totalpages is', totalPages);
 
@@ -84,11 +82,19 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
 
   paginationContainer.addEventListener('click', event => {
     event.preventDefault();
+    ///////////////////////////////////////////////////
 
-    // handle 'previous' button
+    // Prev and Next buttons logic --------------------------
+    // prev & next button declarations
     const prevBtn = document.getElementById('prevButton');
     const nextBtn = document.getElementById('nextButton');
+    // backward & forward Ellipsis button declarations
+    const backwardEllipsisBtn = document.getElementById('prevStepButton');
+    const forwardEllipsisBtn = document.getElementById('nextStepButton');
 
+    // placeholder page button
+        
+    // handle 'previous' button
     if (event.target.id === 'prevButton') {
       if (selectedPage === 1) {
         return;
@@ -128,11 +134,39 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
       }
     }
 
+    // Ellipsis 5-page step logic -----------------------------
+    if (event.target.id === 'nextStepButton') {
+      if (selectedPage > totalPages - 6) {
+        return;
+      } else {
+
+        selectedPage += 5;
+        for (let i = selectedPage; i <= selectedPage + 5; i++) {
+          let placeholderBtn = document.getElementById(`page${i}`);
+          console.log('placeholder', placeholderBtn);
+          placeholderBtn.classList.remove('hidden');
+        }
+        // const show5thButon = document.getElementById(`page${selectedPage + 5}`);
+        // show5thButon.classList.add('activebtn');
+        for (i = 2; i <= selectedPage - 5; i++) {
+          let placeholderBtn = document.getElementById(`page${i}`);
+          placeholderBtn.classList.add('hidden');
+          
+        }
+
+        console.log("WEW", selectedPage);
+        forwardEllipsisBtn.setAttribute('value', `${selectedPage}`);
+        
+      }
+    }
+ console.log('Przed', selectedPage);
     // ATTENTION IT MUST BE HERE----------------------------
     selectedPage = Number(event.target.value);
+    console.log("Po", selectedPage)
     // after that selected page = shown page
 
-    // first & last logic
+    // first & last logic---------------------------
+
     // first button
     const firstPageButton = document.getElementById('page1');
     if (event.target == firstPageButton && totalPages > 6) {
@@ -159,43 +193,33 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
         buttonToHide.classList.add('hidden');
       }
     }
-    // Ellipsis buttons logic
-    const prevStepBtn = document.getElementById('prevStepButton');
-    const nextStepBtn = document.getElementById('nextStepButton');
-    // if (Number(event.target.value) === 1 || selectedPage === 1) {
-    //   console.log('OOOOOOOOOOOOOOO', Number(event.target.value), selectedPage);
-    //   prevStepBtn.classList.add('hidden');
-    // }
-    if (Number(event.target.value) <= 5 || selectedPage <= 5) {
-      //prevStepBtn.classList.remove('hidden');
-      prevStepBtn.classList.add('hidden');
+    // Ellipsis buttons show/hide logic -------------------------
 
-      nextStepBtn.classList.remove('hidden');
+    if (Number(event.target.value) <= 5) {
+      backwardEllipsisBtn.classList.add('hidden');
+
+      forwardEllipsisBtn.classList.remove('hidden');
     }
     if (
-      Number(event.target.value) > 5 ||
-      (selectedPage > 5 && Number(event.target.value) < totalPages - 5) ||
-      selectedPage < totalPages - 5
+      Number(event.target.value) > 5 &&
+      Number(event.target.value) < totalPages - 5
     ) {
-      //prevStepBtn.classList.add('hidden');
-      prevStepBtn.classList.remove('hidden');
-      nextStepBtn.classList.remove('hidden');
+      backwardEllipsisBtn.classList.remove('hidden');
+      forwardEllipsisBtn.classList.remove('hidden');
     }
+    if (Number(event.target.value) >= totalPages - 5) {
+      forwardEllipsisBtn.classList.add('hidden');
 
-    if (
-      Number(event.target.value) >= totalPages - 5 ||
-      selectedPage >= totalPages - 5
-    ) {
-      nextStepBtn.classList.add('hidden');
-
-      prevStepBtn.classList.remove('hidden');
+      backwardEllipsisBtn.classList.remove('hidden');
     }
-
+    // Preloader ------------------------------
     const preloader = document.getElementById('preloader');
 
     preloader.classList.add('hidden');
-
+    // set active page ---------------------------
     setActivePage(selectedPage);
+
+    // create URL with selected page for searching -------
     const urlForSearching = ''.concat(
       BASE_URL,
       'search/movie?api_key=',
@@ -204,6 +228,8 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
       searchInput,
       `&page=${selectedPage}`
     );
+
+    // axios fetch for searchin movies ----------------
 
     axios
       .get(urlForSearching)
@@ -227,6 +253,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
 function setActivePage(currentPage) {
   const elementActive = document.querySelector('.activebtn');
   elementActive.classList.remove('activebtn');
+  elementActive.classList.add('visible');
   const activeBtn = document.getElementById(`page${currentPage}`);
   activeBtn.classList.add('activebtn');
 }
