@@ -59,11 +59,16 @@ export function loadMovies() {
     let movieInfo = document.createElement('span');
     movieInfo.classList.add('movie-card__info');
 
-    movieInfo.textContent = `${genresDesc} | ${singleMovie.release_date.slice(0, 4)}`;
+    if (genresDesc.length > 3) {
+      genresDesc = genresDesc.slice(0, 2)
+      movieInfo.textContent = `${genresDesc.join(', ') + ', Other'} | ${singleMovie.release_date.slice(0, 4)}`;
+    } else {
+      movieInfo.textContent = `${genresDesc.join(', ')} | ${singleMovie.release_date.slice(0, 4)}`;
+    }
 
     let movieRating = document.createElement('span');
     movieRating.classList.add('movie-card__rating');
-    movieRating.textContent = singleMovie.vote_average;
+    movieRating.textContent = singleMovie.vote_average.toFixed(1);
 
     //adding elements to HTML
     moviesContainer.appendChild(movieWrapper);
