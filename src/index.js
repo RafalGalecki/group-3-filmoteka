@@ -13,7 +13,8 @@ import './js/localStorage';
 import './js/library';
 import './js/library-render';
 
-import './js/localStorage'
-import './js/students-modal'
-import './js/refreshPage'
+import './js/localStorage';
+import './js/students-modal';
+import './js/refreshPage';
+import './js/spinner';
 

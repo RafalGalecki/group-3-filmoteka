@@ -2,6 +2,7 @@ import '../sass/components/_cards-home.scss';
 import { getInitialMovies, getGenres, getMovieDetails } from './fetch';
 
 export const moviesContainer = document.querySelector('.cards-container');
+export const preloader = document.getElementById('preloader')
 
 export function loadMovies() {
   //get genres for movies
@@ -74,6 +75,14 @@ export function loadMovies() {
     moviesContainer.appendChild(movieWrapper);
     movieWrapper.append(moviePicture, movieTitle, movieInfo, movieRating);
   }
+  preloader.classList.add('hidden')
 }
 
-document.addEventListener('DOMContentLoaded', loadMovies());
+document.addEventListener('DOMContentLoaded', loadMovies)
+
+/* Test for spinner 
+const delay = () => {
+  setTimeout (() => {
+    loadMovies()}, 3000)}
+
+document.addEventListener('DOMContentLoaded', delay) */
