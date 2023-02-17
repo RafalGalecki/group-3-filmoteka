@@ -93,7 +93,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     const forwardEllipsisBtn = document.getElementById('nextStepButton');
 
     // placeholder page button
-        
+
     // handle 'previous' button
     if (event.target.id === 'prevButton') {
       if (selectedPage === 1) {
@@ -102,18 +102,18 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
         console.log('PREV', selectedPage);
         selectedPage -= 1;
         console.log('PREV after', selectedPage);
-        if (totalPages > 6 && selectedPage < totalPages - 5) {
-          let hideButton = document.getElementById(`page${selectedPage + 5}`);
-          hideButton.classList.add('hidden');
-        }
-        let showButton = document.getElementById(`page${selectedPage}`);
-        showButton.classList.add('hidden');
-        showButton.classList.remove('hidden');
+        // if (totalPages > 6 && selectedPage < totalPages - 5) {
+        //   let hideButton = document.getElementById(`page${selectedPage + 5}`);
+        //   hideButton.classList.add('hidden');
+        // }
+        // let showButton = document.getElementById(`page${selectedPage}`);
+        // showButton.classList.add('hidden');
+        // showButton.classList.remove('hidden');
 
         prevBtn.setAttribute('value', `${selectedPage}`);
       }
     }
-    // handle 'next' button
+    //handle 'next' button
     if (event.target.id == 'nextButton') {
       if (selectedPage === totalPages) {
         return;
@@ -122,77 +122,81 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
 
         selectedPage += 1;
         console.log('NEXT after', selectedPage);
-        if (totalPages > 6 && selectedPage > 6) {
-          let hideButton = document.getElementById(`page${selectedPage - 5}`);
-          hideButton.classList.add('hidden');
-        }
-        let showButton = document.getElementById(`page${selectedPage}`);
-        showButton.classList.add('hidden');
-        showButton.classList.remove('hidden');
+        // if (totalPages > 6 && selectedPage > 6) {
+        //   let hideButton = document.getElementById(`page${selectedPage - 5}`);
+        //   hideButton.classList.add('hidden');
+        // }
+        // let showButton = document.getElementById(`page${selectedPage}`);
+        // showButton.classList.add('hidden');
+        // showButton.classList.remove('hidden');
 
         nextBtn.setAttribute('value', `${selectedPage}`);
       }
     }
+    
 
-    // Ellipsis 5-page step logic -----------------------------
-    if (event.target.id === 'nextStepButton') {
-      if (selectedPage > totalPages - 6) {
-        return;
-      } else {
+    // // Ellipsis 5-page step logic -----------------------------
+    // if (event.target.id === 'nextStepButton') {
+    //   if (selectedPage > totalPages - 6) {
+    //     return;
+    //   } else {
 
-        selectedPage += 5;
-        for (let i = selectedPage; i <= selectedPage + 5; i++) {
-          let placeholderBtn = document.getElementById(`page${i}`);
-          console.log('placeholder', placeholderBtn);
-          placeholderBtn.classList.remove('hidden');
-        }
-        // const show5thButon = document.getElementById(`page${selectedPage + 5}`);
-        // show5thButon.classList.add('activebtn');
-        for (i = 2; i <= selectedPage - 5; i++) {
-          let placeholderBtn = document.getElementById(`page${i}`);
-          placeholderBtn.classList.add('hidden');
-          
-        }
+    //     selectedPage += 5;
+    //     for (let i = selectedPage; i <= selectedPage + 5; i++) {
+    //       let placeholderBtn = document.getElementById(`page${i}`);
+    //       console.log('placeholder', placeholderBtn);
+    //       placeholderBtn.classList.remove('hidden');
+    //     }
+    //     // const show5thButon = document.getElementById(`page${selectedPage + 5}`);
+    //     // show5thButon.classList.add('activebtn');
+    //     for (i = 2; i <= selectedPage - 5; i++) {
+    //       let placeholderBtn = document.getElementById(`page${i}`);
+    //       placeholderBtn.classList.add('hidden');
 
-        console.log("WEW", selectedPage);
-        forwardEllipsisBtn.setAttribute('value', `${selectedPage}`);
-        
-      }
-    }
- console.log('Przed', selectedPage);
+    //     }
+
+    //     console.log("WEW", selectedPage);
+    //     forwardEllipsisBtn.setAttribute('value', `${selectedPage}`);
+
+    //    }
+    // }
+    console.log('Przed', selectedPage);
     // ATTENTION IT MUST BE HERE----------------------------
     selectedPage = Number(event.target.value);
-    console.log("Po", selectedPage)
+
+
+    renderPagins(selectedPage, totalPages);
+    console.log('Po', selectedPage);
     // after that selected page = shown page
 
     // first & last logic---------------------------
 
     // first button
-    const firstPageButton = document.getElementById('page1');
-    if (event.target == firstPageButton && totalPages > 6) {
-      for (i = 1; i <= 6; i++) {
-        const buttonToShow = document.getElementById(`page${i}`);
-        buttonToShow.classList.add('hidden');
-        buttonToShow.classList.remove('hidden');
-      }
-      for (i = 7; i < totalPages; i++) {
-        const buttonToHide = document.getElementById(`page${i}`);
-        buttonToHide.classList.add('hidden');
-      }
-    }
-    // last button
-    const lastPageButton = document.getElementById(`page${totalPages}`);
-    if (event.target == lastPageButton && totalPages > 6) {
-      for (i = totalPages - 6; i <= totalPages; i++) {
-        const buttonToShow = document.getElementById(`page${i}`);
-        buttonToShow.classList.add('hidden');
-        buttonToShow.classList.remove('hidden');
-      }
-      for (i = 2; i <= totalPages - 6; i++) {
-        const buttonToHide = document.getElementById(`page${i}`);
-        buttonToHide.classList.add('hidden');
-      }
-    }
+    // const firstPageButton = document.getElementById('page1');
+    // if (event.target == firstPageButton && totalPages > 6) {
+    //   for (i = 1; i <= 6; i++) {
+    //     const buttonToShow = document.getElementById(`page${i}`);
+    //     buttonToShow.classList.add('hidden');
+    //     buttonToShow.classList.remove('hidden');
+    //   }
+    //   for (i = 7; i < totalPages; i++) {
+    //     const buttonToHide = document.getElementById(`page${i}`);
+    //     buttonToHide.classList.add('hidden');
+    //   }
+    // }
+    // // last button
+    // const lastPageButton = document.getElementById(`page${totalPages}`);
+    // if (event.target == lastPageButton && totalPages > 6) {
+    //   for (i = totalPages - 6; i <= totalPages; i++) {
+    //     const buttonToShow = document.getElementById(`page${i}`);
+    //     buttonToShow.classList.add('hidden');
+    //     buttonToShow.classList.remove('hidden');
+    //   }
+    //   for (i = 2; i <= totalPages - 6; i++) {
+    //     const buttonToHide = document.getElementById(`page${i}`);
+    //     buttonToHide.classList.add('hidden');
+    //   }
+    // }
     // Ellipsis buttons show/hide logic -------------------------
 
     if (Number(event.target.value) <= 5) {
@@ -260,11 +264,46 @@ function setActivePage(currentPage) {
 
 ////// Limit page-numbered buttons displayed
 function limitDisplayedButtons(totalPages) {
-  if (totalPages > 7) {
-    for (let i = 7; i < totalPages; i++) {
+  if (totalPages > 4) {
+    for (let i = 5; i < totalPages; i++) {
       const btnHidden = document.getElementById(`page${i}`);
       //btnHidden.classList.remove('visible');
       btnHidden.classList.add('hidden');
+    }
+  }
+}
+
+///
+function renderPagins(selectedPage, totalPages) {
+  if (selectedPage === 1) {
+    for (let i = 4; i < totalPages; i++) {
+      const pageButton = document.getElementById(`page${i}`);
+      pageButton.classList.add('hidden');
+    }
+    for (let i = 1; i <= 3; i++) {
+      const pageButton = document.getElementById(`page${i}`);
+      pageButton.classList.remove('hidden');
+    }
+  }
+  if (selectedPage === totalPages) {
+    for (let i = 2; i < totalPages - 2; i++) {
+      const pageButton = document.getElementById(`page${i}`);
+      pageButton.classList.add('hidden');
+    }
+    for (let i = totalPages - 2; i <= totalPages; i++) {
+      const pageButton = document.getElementById(`page${i}`);
+      pageButton.classList.remove('hidden');
+    }
+  }
+
+  if (selectedPage > 2 && selectedPage < totalPages - 2) {
+    for (let i = 2; i < totalPages; i++) {
+      const pageButton = document.getElementById(`page${i}`);
+      pageButton.classList.add('hidden');
+    }
+    for (let i = selectedPage - 2; i <= selectedPage + 2; i++) {
+      const pageButton = document.getElementById(`page${i}`);
+      pageButton.classList.remove('hidden');
     }
   }
 }
