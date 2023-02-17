@@ -11,7 +11,7 @@
     color: #ffffff;
     background-color: #FF6B08;
     border-radius: 15px;
-    padding: 5px 10px 5px;
+    padding: 3px 10px;
     justify-content: center;
     cursor: pointer;
     transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -41,12 +41,12 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    padding-top: 20px;
+    padding-top: 50px;
 }
 
 .login-wrapper {
     justify-content: center;
-    margin: 0 auto;
+    margin: 30px auto;
     text-align: center;
 }
 
@@ -71,10 +71,7 @@
     left: 90%;
 }
 
-.modal-login__icon {
-    top: 3px;
-    position: relative;
-}
+
 
 .modal-login {
     position: absolute;
@@ -89,6 +86,20 @@
     transition: all 500ms cubic-bezier(0.38, 0.53, 0.8, 0.71),
         opacity 500ms cubic-bezier(0.38, 0.53, 0.8, 0.71);
     overflow: hidden;
+
+
+  &-close-btn {
+      position: fixed;
+      top: 10px;
+      left: 95%;
+      border: transparent;
+      width: 30px;
+      height: 30px;
+      background-color: transparent;
+      cursor: pointer;
+    left: 89%;
+        top: 5px;
+  }
 }
 
 .login-form {
@@ -98,6 +109,33 @@
     font-size: 12px;
     color: black;
 }
+
+.login-input {
+    width: 220px;
+    height: 20px;
+    margin: 45px auto;
+    font-size: 14px;
+    line-height: 1.142;
+    display: flex;
+    color: #ffffff;
+    background: transparent;
+    border: none;
+    border-bottom: 0.5px solid #545454;
+    outline: none;
+    transition: all 500ms cubic-bezier(0.38, 0.53, 0.8, 0.71);
+
+    &:focus {
+        border-bottom: 0.5px solid #FF6B08;
+    }
+
+    &:hover {
+        border-bottom: 0.5px solid #FF6B08;
+    }
+}
+
+
+
+
 
 .backdrop {
     position: fixed;

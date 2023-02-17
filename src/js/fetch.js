@@ -36,9 +36,9 @@ export const getSearchedMovies = async (searchInput, page = 1) => {
         return response;
 
       } else {
-        // if no results found - show warning and reset pagination
+        // if no results found - show warning
         warning.textContent = 'Search result not successful. Enter the correct movie name and try again.';
-        renderCardPaginator(1)
+       
       }
 
     })
@@ -70,7 +70,7 @@ export const getInitialMovies = async () => {
     })
     .catch(function (error) {
       // handle error
-      Notiflix.Notify.error(
+      Notiflix.Notify.warning(
         'We are sorry, but getting data is impossible in that moment'
       );
     });
@@ -148,7 +148,7 @@ export const getMovieDetails = async movie_id => {
     .catch(function (error) {
       // handle error
       // handle error
-      Notiflix.Notify.error(
+      Notiflix.Notify.warning(
         'We are sorry, but getting data is impossible in that moment'
       );
     });

@@ -10,13 +10,16 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
   const paginationContainer = document.getElementById('pagination-numbers');
   paginationContainer.innerHTML = '';
 
+
   // generate buttons according to a totalPages variable
+
   if (totalPages >= 2) {
     for (let i = 1; i <= totalPages; i++) {
       const pageBtn = document.createElement('button');
       pageBtn.setAttribute('type', 'button');
       //pageBtn.classList.add('visible');
       pageBtn.setAttribute('value', `${i}`);
+
       pageBtn.setAttribute('id', `page${i}`);
       pageBtn.innerText = i;
       // if (i === Number(selectedPage)) {
@@ -38,6 +41,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     const lastBtn = document.getElementById(`page${totalPages}`);
 
     // generate Arrow Prev & Next buttons ------------------------
+
     const prevBtn = document.createElement('button');
     prevBtn.setAttribute('type', 'button');
     prevBtn.setAttribute('value', '');
@@ -53,6 +57,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     nextBtn.innerHTML = '&gt;';
     nextBtn.style.backgroundColor = '#ff6b08';
     paginationContainer.append(nextBtn);
+
 
     // generate ellipsis (...) buttons --------------------
 
@@ -74,6 +79,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     forwardEllipsisBtn.style.backgroundColor = '#C4B454';
 
     lastBtn.before(forwardEllipsisBtn);
+
   }
   console.log('totalpages is', totalPages);
 
@@ -95,6 +101,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     // placeholder page button
 
     // handle 'previous' button
+
     if (event.target.id === 'prevButton') {
       if (selectedPage === 1) {
         return;
@@ -102,6 +109,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
         console.log('PREV', selectedPage);
         selectedPage -= 1;
         console.log('PREV after', selectedPage);
+
         // if (totalPages > 6 && selectedPage < totalPages - 5) {
         //   let hideButton = document.getElementById(`page${selectedPage + 5}`);
         //   hideButton.classList.add('hidden');
@@ -109,6 +117,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
         // let showButton = document.getElementById(`page${selectedPage}`);
         // showButton.classList.add('hidden');
         // showButton.classList.remove('hidden');
+
 
         prevBtn.setAttribute('value', `${selectedPage}`);
       }
@@ -122,6 +131,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
 
         selectedPage += 1;
         console.log('NEXT after', selectedPage);
+
         // if (totalPages > 6 && selectedPage > 6) {
         //   let hideButton = document.getElementById(`page${selectedPage - 5}`);
         //   hideButton.classList.add('hidden');
@@ -129,6 +139,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
         // let showButton = document.getElementById(`page${selectedPage}`);
         // showButton.classList.add('hidden');
         // showButton.classList.remove('hidden');
+
 
         nextBtn.setAttribute('value', `${selectedPage}`);
       }
@@ -163,6 +174,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     console.log('Przed', selectedPage);
     // ATTENTION IT MUST BE HERE----------------------------
     selectedPage = Number(event.target.value);
+
 
 
     renderPagins(selectedPage, totalPages);
@@ -221,6 +233,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
 
     preloader.classList.add('hidden');
     // set active page ---------------------------
+
     setActivePage(selectedPage);
 
     // create URL with selected page for searching -------
@@ -257,16 +270,20 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
 function setActivePage(currentPage) {
   const elementActive = document.querySelector('.activebtn');
   elementActive.classList.remove('activebtn');
+
   elementActive.classList.add('visible');
   const activeBtn = document.getElementById(`page${currentPage}`);
+
   activeBtn.classList.add('activebtn');
 }
 
 ////// Limit page-numbered buttons displayed
 function limitDisplayedButtons(totalPages) {
+
   if (totalPages > 4) {
     for (let i = 5; i < totalPages; i++) {
       const btnHidden = document.getElementById(`page${i}`);
+
       //btnHidden.classList.remove('visible');
       btnHidden.classList.add('hidden');
     }
