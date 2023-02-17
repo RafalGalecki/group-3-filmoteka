@@ -16,6 +16,7 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
     pageBtn.setAttribute('type', 'button');
     pageBtn.setAttribute('value', `${i}`);
     pageBtn.setAttribute('id', `page${i}`);
+    pageBtn.classList.add('pagination-button');
     pageBtn.innerText = i;
 
     paginationContainer.append(pageBtn);
@@ -39,16 +40,18 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
   prevBtn.setAttribute('type', 'button');
   prevBtn.setAttribute('value', '');
   prevBtn.setAttribute('id', 'prevButton');
-  prevBtn.innerHTML = '&lt;';
-  prevBtn.style.backgroundColor = '#ff6b08';
+  prevBtn.classList.add('pagination-button');
+  prevBtn.classList.add('pagination-arrow-btn');
+  prevBtn.innerHTML = '&lt;-';
   paginationContainer.prepend(prevBtn);
 
   const nextBtn = document.createElement('button');
   nextBtn.setAttribute('type', 'button');
   nextBtn.setAttribute('value', '');
   nextBtn.setAttribute('id', 'nextButton');
-  nextBtn.innerHTML = '&gt;';
-  nextBtn.style.backgroundColor = '#ff6b08';
+  nextBtn.classList.add('pagination-button');
+  nextBtn.classList.add('pagination-arrow-btn');
+  nextBtn.innerHTML = '-&gt;';
   paginationContainer.append(nextBtn);
 
   // generate ellipsis (...) buttons --------------------
@@ -57,6 +60,8 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
   backwardEllipsisBtn.setAttribute('type', 'button');
   backwardEllipsisBtn.setAttribute('value', '');
   backwardEllipsisBtn.setAttribute('id', 'prevStepButton');
+  backwardEllipsisBtn.classList.add('pagination-button');
+  backwardEllipsisBtn.classList.add('pagination-ellipsis');
   backwardEllipsisBtn.classList.add('hidden');
   backwardEllipsisBtn.innerHTML = '...';
 
@@ -66,6 +71,8 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
   forwardEllipsisBtn.setAttribute('type', 'button');
   forwardEllipsisBtn.setAttribute('value', '');
   forwardEllipsisBtn.setAttribute('id', 'nextStepButton');
+  forwardEllipsisBtn.classList.add('pagination-button');
+  forwardEllipsisBtn.classList.add('pagination-ellipsis');
   forwardEllipsisBtn.innerHTML = '...';
 
   lastBtn.before(forwardEllipsisBtn);
@@ -77,8 +84,8 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
 
     // Prev and Next buttons logic --------------------------
 
-    const prevBtn = document.getElementById('prevButton');
-    const nextBtn = document.getElementById('nextButton');
+    // const prevBtn = document.getElementById('prevButton');
+    // const nextBtn = document.getElementById('nextButton');
 
     // handle 'previous' button, one click = one page backward
     if (event.target.id === 'prevButton') {
@@ -101,8 +108,29 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
       }
     }
 
-    console.log('Przed', selectedPage);
+    // Ellipsis 10-page step logic
+    // Step back
+    if (event.target.id === 'prevStepButton') {
+      if (selectedPage <= 10) {
+        return;
+      } else {
+        selectedPage -= 10;
 
+        const backwardEllipsisBtn = document.getElementById('prevStepButton');
+        backwardEllipsisBtn.setAttribute('value', `${selectedPage}`);
+      }
+    }
+    // Step forward
+    if (event.target.id === 'nextStepButton') {
+      if (selectedPage > totalPages - 10) {
+        return;
+      } else {
+        selectedPage += 10;
+
+        const forwardEllipsisBtn = document.getElementById('nextStepButton');
+        forwardEllipsisBtn.setAttribute('value', `${selectedPage}`);
+      }
+    }
     // Selected page variable declaration----------------------------
     selectedPage = Number(event.target.value);
 
