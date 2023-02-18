@@ -1,169 +1,172 @@
 'use strict';
+'id';
 import axios from 'axios';
 import { API_KEY, BASE_URL } from './fetch';
 import { searchInput } from './search-form';
 import { renderMovies } from './search-form';
 
 export function renderCardPaginator(totalPages, selectedPage = 1) {
-  const pages = totalPages;
   const paginationContainer = document.getElementById('pagination-numbers');
   paginationContainer.innerHTML = '';
 
-  if (totalPages >= 2) {
-    for (let i = 1; i <= totalPages; i++) {
-      const pageBtn = document.createElement('button');
-      pageBtn.setAttribute('type', 'button');
-      //pageBtn.classList.add('visible');
-      pageBtn.setAttribute('value', `${i}`);
-      pageBtn.setAttribute('id', `btn${i}`);
-      pageBtn.innerText = i;
-      if (i === Number(selectedPage)) {
-        pageBtn.setAttribute('selected', true);
-      }
-      paginationContainer.append(pageBtn);
-    }
+  // generate buttons according to a totalPages variable
 
-    limitDisplayedButtons(totalPages);
+  for (let i = 1; i <= totalPages; i++) {
+    const pageBtn = document.createElement('button');
+    pageBtn.setAttribute('type', 'button');
+    pageBtn.setAttribute('value', `${i}`);
+    pageBtn.setAttribute('id', `page${i}`);
+    pageBtn.classList.add('pagination-button');
+    pageBtn.innerText = i;
 
-    // first button
-    // on first search load(page 1) it makes button 1 active
-    const firstBtn = document.getElementById('btn1');
-    //firstBtn.classList.remove('visible');
-    if (firstBtn) {
-      firstBtn.classList.add('activebtn');
-    }
-    // last button
-    const lastBtn = document.getElementById(`btn${totalPages}`);
-
-    //Arrow buttons prev and next
-    const prevBtn = document.createElement('button');
-    prevBtn.setAttribute('type', 'button');
-    prevBtn.setAttribute('value', '');
-    prevBtn.setAttribute('id', 'prevButton');
-    prevBtn.innerHTML = '&lt;';
-    prevBtn.style.backgroundColor = '#ff6b08';
-    paginationContainer.prepend(prevBtn);
-
-    const nextBtn = document.createElement('button');
-    nextBtn.setAttribute('type', 'button');
-    nextBtn.setAttribute('value', '');
-    nextBtn.setAttribute('id', 'nextButton');
-    nextBtn.innerHTML = '&gt;';
-    nextBtn.style.backgroundColor = '#ff6b08';
-    paginationContainer.append(nextBtn);
-
-    // ... buttons
-
-    const prevStepBtn = document.createElement('span');
-    //prevStepBtn.setAttribute('type', 'button');
-    prevStepBtn.setAttribute('value', '');
-    prevStepBtn.setAttribute('id', 'prevStepButton');
-    //prevStepBtn.classList.add('hidden');
-    prevStepBtn.innerHTML = '...';
-    prevStepBtn.style.backgroundColor = '#C4B454';
-
-    firstBtn.after(prevStepBtn);
-
-    const nextStepBtn = document.createElement('span');
-    //nextStepBtn.setAttribute('type', 'button');
-    nextStepBtn.setAttribute('value', '');
-    nextStepBtn.setAttribute('id', 'nextStepButton');
-    nextStepBtn.innerHTML = '...';
-    nextStepBtn.style.backgroundColor = '#C4B454';
-
-    lastBtn.before(nextStepBtn);
-    if (selectedPage > totalPages - 5) {
-      nextStepBtn.classList.toggle('hidden');
-    }
+    paginationContainer.append(pageBtn);
   }
-  console.log('totalpages is', totalPages);
+  // handle how many buttons to show on start --------------
+  limitDisplayedButtons(totalPages);
 
-  // LISTENER ---------------------------------------
-  //////////////////////////////////////////////////////
+  // first button
+  // on first search (page 1) it makes page button 1 active
+  const firstBtn = document.getElementById('page1');
+  //firstBtn.classList.remove('visible');
+  if (firstBtn) {
+    firstBtn.classList.add('activebtn');
+  }
+  // last button
+  const lastBtn = document.getElementById(`page${totalPages}`);
+
+  // generate Arrow Prev & Next buttons ------------------------
+
+  const prevBtn = document.createElement('button');
+  prevBtn.setAttribute('type', 'button');
+  prevBtn.setAttribute('value', '');
+  prevBtn.setAttribute('id', 'prevButton');
+  prevBtn.classList.add('pagination-button');
+  prevBtn.classList.add('pagination-arrow-btn');
+  prevBtn.innerHTML = '&lt;-';
+  paginationContainer.prepend(prevBtn);
+
+  const nextBtn = document.createElement('button');
+  nextBtn.setAttribute('type', 'button');
+  nextBtn.setAttribute('value', '');
+  nextBtn.setAttribute('id', 'nextButton');
+  nextBtn.classList.add('pagination-button');
+  nextBtn.classList.add('pagination-arrow-btn');
+  nextBtn.innerHTML = '-&gt;';
+  paginationContainer.append(nextBtn);
+
+  // generate ellipsis (...) buttons --------------------
+
+  const backwardEllipsisBtn = document.createElement('button');
+  backwardEllipsisBtn.setAttribute('type', 'button');
+  backwardEllipsisBtn.setAttribute('value', '');
+  backwardEllipsisBtn.setAttribute('id', 'prevStepButton');
+  backwardEllipsisBtn.classList.add('pagination-button');
+  backwardEllipsisBtn.classList.add('pagination-ellipsis');
+  backwardEllipsisBtn.classList.add('hidden');
+  backwardEllipsisBtn.innerHTML = '...';
+
+  firstBtn.after(backwardEllipsisBtn);
+
+  const forwardEllipsisBtn = document.createElement('button');
+  forwardEllipsisBtn.setAttribute('type', 'button');
+  forwardEllipsisBtn.setAttribute('value', '');
+  forwardEllipsisBtn.setAttribute('id', 'nextStepButton');
+  forwardEllipsisBtn.classList.add('pagination-button');
+  forwardEllipsisBtn.classList.add('pagination-ellipsis');
+  forwardEllipsisBtn.innerHTML = '...';
+
+  lastBtn.before(forwardEllipsisBtn);
+
+  // LISTENER to page buttons-----------------------------
 
   paginationContainer.addEventListener('click', event => {
     event.preventDefault();
 
-    // handle 'previous' button
-    const prevBtn = document.getElementById('prevButton');
-    const nextBtn = document.getElementById('nextButton');
+    // Prev and Next buttons logic --------------------------
 
+    // const prevBtn = document.getElementById('prevButton');
+    // const nextBtn = document.getElementById('nextButton');
+
+    // handle 'previous' button, one click = one page backward
     if (event.target.id === 'prevButton') {
       if (selectedPage === 1) {
         return;
       } else {
-        console.log('PREV', selectedPage);
         selectedPage -= 1;
-        console.log('PREV after', selectedPage);
-        if (totalPages > 6 && selectedPage < totalPages - 5) {
-          let hideButton = document.getElementById(`btn${selectedPage + 5}`);
-          hideButton.classList.add('hidden');
-        }
-        let showButton = document.getElementById(`btn${selectedPage}`);
-        showButton.classList.add('hidden');
-        showButton.classList.remove('hidden');
 
         prevBtn.setAttribute('value', `${selectedPage}`);
       }
     }
-    // handle 'next' button
+    //handle 'next' button, one click = one page forward
     if (event.target.id == 'nextButton') {
       if (selectedPage === totalPages) {
         return;
       } else {
-        console.log('NEXT before', selectedPage);
-
         selectedPage += 1;
-        console.log('NEXT after', selectedPage);
-        if (totalPages > 6 && selectedPage > 6) {
-          let hideButton = document.getElementById(`btn${selectedPage - 5}`);
-          hideButton.classList.add('hidden');
-        }
-        let showButton = document.getElementById(`btn${selectedPage}`);
-        showButton.classList.add('hidden');
-        showButton.classList.remove('hidden');
 
         nextBtn.setAttribute('value', `${selectedPage}`);
       }
     }
 
-    // ATTENTION IT MUST BE HERE----------------------------
+    // Ellipsis 10-page step logic
+    // Step back
+    if (event.target.id === 'prevStepButton') {
+      if (selectedPage <= 10) {
+        return;
+      } else {
+        selectedPage -= 10;
+
+        const backwardEllipsisBtn = document.getElementById('prevStepButton');
+        backwardEllipsisBtn.setAttribute('value', `${selectedPage}`);
+      }
+    }
+    // Step forward
+    if (event.target.id === 'nextStepButton') {
+      if (selectedPage > totalPages - 10) {
+        return;
+      } else {
+        selectedPage += 10;
+
+        const forwardEllipsisBtn = document.getElementById('nextStepButton');
+        forwardEllipsisBtn.setAttribute('value', `${selectedPage}`);
+      }
+    }
+    // Selected page variable declaration----------------------------
     selectedPage = Number(event.target.value);
-    // after that selected page = shown page
 
-    // first & last logic
-    //first button
-    const firstPageButton = document.getElementById('btn1');
-    if (event.target == firstPageButton && totalPages > 6) {
-      for (i = 1; i < 6; i++) {
-        const buttonToShow = document.getElementById(`btn${i}`);
-        buttonToShow.classList.add('hidden');
-        buttonToShow.classList.remove('hidden');
-      }
-      for (i = 6; i < totalPages; i++) {
-        const buttonToHide = document.getElementById(`btn${i}`);
-        buttonToHide.classList.add('hidden');
-      }
-    }
-    // last button
-    const lastPageButton = document.getElementById(`btn${totalPages}`);
-    if (event.target == lastPageButton && totalPages > 6) {
-      for (i = totalPages - 6; i <= totalPages; i++) {
-        const buttonToShow = document.getElementById(`btn${i}`);
-        buttonToShow.classList.add('hidden');
-        buttonToShow.classList.remove('hidden');
-      }
-      for (i = 2; i <= totalPages - 6; i++) {
-        const buttonToHide = document.getElementById(`btn${i}`);
-        buttonToHide.classList.add('hidden');
-      }
-    }
+    renderPageButtons(selectedPage, totalPages);
 
+    // Ellipsis buttons show/hide logic -------------------------
+    const backwardEllipsisBtn = document.getElementById('prevStepButton');
+    const forwardEllipsisBtn = document.getElementById('nextStepButton');
+
+    if (Number(event.target.value) < 4) {
+      backwardEllipsisBtn.classList.add('hidden');
+
+      forwardEllipsisBtn.classList.remove('hidden');
+    }
+    if (
+      Number(event.target.value) >= 4 &&
+      Number(event.target.value) <= totalPages - 4
+    ) {
+      backwardEllipsisBtn.classList.remove('hidden');
+      forwardEllipsisBtn.classList.remove('hidden');
+    }
+    if (Number(event.target.value) > totalPages - 4) {
+      forwardEllipsisBtn.classList.add('hidden');
+
+      backwardEllipsisBtn.classList.remove('hidden');
+    }
+    // Preloader ------------------------------
     const preloader = document.getElementById('preloader');
 
     preloader.classList.add('hidden');
 
+    // set active page ---------------------------
+
     setActivePage(selectedPage);
+
+    // create URL with selected page for searching -------
     const urlForSearching = ''.concat(
       BASE_URL,
       'search/movie?api_key=',
@@ -172,6 +175,8 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
       searchInput,
       `&page=${selectedPage}`
     );
+
+    // axios fetch for searchin movies ----------------
 
     axios
       .get(urlForSearching)
@@ -183,29 +188,45 @@ export function renderCardPaginator(totalPages, selectedPage = 1) {
       .catch(function (error) {
         // handle error
         console.log(error);
-        // Notiflix.Notify.error(
-        //   'We are sorry, but getting data is impossible in that moment'
-        // );
+        Notiflix.Notify.warning(
+          'We are sorry, but getting data is impossible in that moment'
+        );
       });
   });
 }
 
 // Page buttons logic
-
+// Set class activebtn to a selected page for indicating
 function setActivePage(currentPage) {
   const elementActive = document.querySelector('.activebtn');
   elementActive.classList.remove('activebtn');
-  const activeBtn = document.getElementById(`btn${currentPage}`);
+
+  elementActive.classList.add('visible');
+  const activeBtn = document.getElementById(`page${currentPage}`);
+
   activeBtn.classList.add('activebtn');
 }
 
-////// Limit page-numbered buttons displayed
+// Limit page buttons displayed on load ---------------
 function limitDisplayedButtons(totalPages) {
-  if (totalPages > 7) {
-    for (let i = 7; i < totalPages; i++) {
-      const btnHidden = document.getElementById(`btn${i}`);
-      //btnHidden.classList.remove('visible');
-      btnHidden.classList.add('hidden');
+  if (totalPages > 4) {
+    for (let i = 5; i < totalPages; i++) {
+      const hideButton = document.getElementById(`page${i}`);
+      hideButton.classList.add('hidden');
+    }
+  }
+}
+
+// Show page buttons around a selected page -------------
+function renderPageButtons(selectedPage, totalPages) {
+  for (let i = 2; i < totalPages; i++) {
+    const hideButton = document.getElementById(`page${i}`);
+    hideButton.classList.add('hidden');
+  }
+  for (let i = selectedPage - 2; i <= selectedPage + 2; i++) {
+    const showButton = document.getElementById(`page${i}`);
+    if (showButton) {
+      showButton.classList.remove('hidden');
     }
   }
 }

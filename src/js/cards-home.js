@@ -2,6 +2,7 @@ import '../sass/components/_cards-home.scss';
 import { getInitialMovies, getGenres, getMovieDetails } from './fetch';
 
 export const moviesContainer = document.querySelector('.cards-container');
+export const preloader = document.getElementById('preloader')
 
 export function loadMovies() {
   //get genres for movies
@@ -59,16 +60,29 @@ export function loadMovies() {
     let movieInfo = document.createElement('span');
     movieInfo.classList.add('movie-card__info');
 
-    movieInfo.textContent = `${genresDesc} | ${singleMovie.release_date.slice(0, 4)}`;
+    if (genresDesc.length > 3) {
+      genresDesc = genresDesc.slice(0, 2)
+      movieInfo.textContent = `${genresDesc.join(', ') + ', Other'} | ${singleMovie.release_date.slice(0, 4)}`;
+    } else {
+      movieInfo.textContent = `${genresDesc.join(', ')} | ${singleMovie.release_date.slice(0, 4)}`;
+    }
 
     let movieRating = document.createElement('span');
     movieRating.classList.add('movie-card__rating');
-    movieRating.textContent = singleMovie.vote_average;
+    movieRating.textContent = singleMovie.vote_average.toFixed(1);
 
     //adding elements to HTML
     moviesContainer.appendChild(movieWrapper);
     movieWrapper.append(moviePicture, movieTitle, movieInfo, movieRating);
   }
+  preloader.classList.add('hidden')
 }
 
-document.addEventListener('DOMContentLoaded', loadMovies());
+document.addEventListener('DOMContentLoaded', loadMovies)
+
+/* Test for spinner 
+const delay = () => {
+  setTimeout (() => {
+    loadMovies()}, 3000)}
+
+document.addEventListener('DOMContentLoaded', delay) */
