@@ -11,6 +11,7 @@
   margin: 0 auto;
   color: $secondary-text-cl;
   font-family: $main-font;
+  //box-shadow: -5px 10px 15px -6px $secondary-accent-cl;
 }
 
 .header__btn-wrapper {
@@ -22,12 +23,6 @@
   
   .header__btn {
     text-transform: none;
-  }
-
-  @media screen and (min-width: 768px) {
-    .header__btn-wrapper {
-      gap: 15px;
-    }
   }
 
   .btn {
@@ -90,15 +85,7 @@
     margin-left: 90px;
   
     opacity: 0.4;
-  
-    // @include media(tablet) {
-    //   margin-left: 500px;
-    // }
-  
-    // @include media(desktop) {
-    //   margin-left: 1000px;
-    // }
-  
+    
     transition: opacity;
     transition-duration: $transition-time;
     transition-timing-function: $transition-cubic;
@@ -120,4 +107,24 @@
   .switch__btn__icon {
     color: $secondary-accent-cl;
     font-size: 25px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .header__btn-wrapper {
+      gap: 32px;
+    }
+
+    .switch__btn {
+      margin-left: 500px;
+    }
+  }
+
+  @media screen and (min-width: 1280px) {
+    .switch__btn {
+      margin-left: 1000px;
+    }
+    
+    .header__btn-wrapper {
+      gap: 16px;
+    }
   }

@@ -5,6 +5,8 @@ import {
   renderWatchedMovies,
 } from './library';
 import { headerLibrary } from './library';
+const libBtnWatched = document.querySelector('.js-btn-watched');
+const libBtnQueue = document.querySelector('.js-btn-queue');
 
 headerLibrary.addEventListener('click', libraryEvents);
 
@@ -15,16 +17,16 @@ function libraryEvents(event) {
   }
 
   if (event.target.classList.contains('js-btn-watched')) {
-    // if (getWatchedMovies = []) {
-    //  // Notiflix.Report.info("Oops!", "It's empty in here. Go back and add your favorite movies.", "Ok");
-    // }
+    libBtnWatched.classList.add('btn-js-active');
+    libBtnQueue.classList.remove('btn-js-active');
+
     renderWatchedMovies(getWatchedMovies[0]);
   }
 
   if (event.target.classList.contains('js-btn-queue')) {
-    // if (getQueueMovies = []) {
-    //   Notiflix.Report.info("Oops!", "It's empty in here. Go back and add your favorite movies.", "Ok");
-    // }
+    libBtnQueue.classList.add('btn-js-active');
+    libBtnWatched.classList.remove('btn-js-active');
+
     renderWatchedMovies(getQueueMovies[0]);
   }
 }
