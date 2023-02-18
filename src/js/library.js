@@ -17,8 +17,18 @@ const LOCALSTORAGE_QUE = 'que';
 const watched = localStorage.getItem(LOCALSTORAGE_WATCHED) || '';
 const queue = localStorage.getItem(LOCALSTORAGE_QUE) || '';
 
-const watchedParsed = JSON.parse(watched);
-const queueParsed = JSON.parse(queue);
+//const watchedParsed = JSON.parse(watched);
+//const queueParsed = JSON.parse(queue);
+// TEST - poprawka Michala
+let watchedParsed = [];
+if (watched) {
+  watchedParsed = JSON.parse(watched);
+}
+let queueParsed = [];
+if (queue) {
+  queueParsed = JSON.parse(queue);
+};
+// koniec poprawki
 
 const headerHome = document.querySelector('.header-home');
 const headerLibrary = document.querySelector('.header-library');
