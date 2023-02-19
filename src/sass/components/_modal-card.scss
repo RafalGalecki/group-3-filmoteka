@@ -2,6 +2,11 @@
 
 // edit below
 
+:root {
+  --grow_title: 1;
+  --grow_genres: 0;
+}
+
 .is-hidden {
   display: none;
 }
@@ -18,7 +23,8 @@
 .modal-card {
   position: absolute;
   min-width: 280px;
-  margin: 20px 0 20px 0;
+  max-height: 95vh;
+  overflow-y: auto;
   padding: 48px 20px 20px;
   background-color: white;
   top: 50%;
@@ -33,8 +39,7 @@
     min-width: 240px;
     max-height: 356.57px;
     border-radius: 5px;
-    margin-bottom: 30px;
-    object-fit: fill;
+    padding-bottom: 30px;
   }
 
   &__title {
@@ -108,11 +113,11 @@
   }
 
   &__list-item:nth-child(3) {
-    flex-grow: 1;
+    flex-grow: var(--grow_title);
   }
 
   &__list-item:nth-child(4) {
-    flex-grow: 1;
+    flex-grow: var(--grow_genres);
   }
 
   &__list-details:nth-child(3) {
@@ -124,7 +129,7 @@
     font-size: 12px;
     line-height: 1.33;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    margin: 10px 0 10px 0;
   }
 
   &__movie-desc {
@@ -135,7 +140,7 @@
   }
 }
 //media for different screens
-@media screen and (min-width:768px) {
+@media screen and (min-width: 768px) {
   .modal-card {
     min-width: 618px;
     max-height: 562px;
@@ -156,10 +161,14 @@
       max-height: 373.55px;
       margin-top: 0;
     }
+    &__movie-desc {
+      max-height: fit-content;
+      overflow-y: visible;
+    }
   }
 }
 
-@media screen and (min-width:1024px) {
+@media screen and (min-width: 1024px) {
   .modal-card {
     width: 882px;
     max-height: 568px;
@@ -172,7 +181,7 @@
       min-width: 396px;
       max-height: 477.8px;
     }
-    
+
     &__list-container {
       column-gap: 85px;
     }

@@ -5,19 +5,30 @@ import { getMovieDetails } from './fetch';
 import { saveToWatched } from './localStorage';
 import { saveToQue } from './localStorage';
 import { movieID } from './fetch';
-// import { after } from 'lodash';
-//import { merge } from 'lodash';
+import debounce from 'lodash.debounce';
 
 const modal = document.querySelector('.modal-card');
 const btnClose = modal.querySelector('.btn--close');
+let variablesCSS = document.querySelector(':root');
 
 export const createModalCard = el => {
   const modalImage = document.createElement('img');
   modalImage.classList.add('modal-card__img');
   modalImage.setAttribute(
     'src',
-    `https://image.tmdb.org/t/p/w300${el.poster_path}`
+    `https://image.tmdb.org/t/p/w185${el.poster_path}`
   );
+  modalImage.setAttribute(
+    'srcset',
+    `https://image.tmdb.org/t/p/w300${el.poster_path} 300w,
+    https://image.tmdb.org/t/p/w500${el.poster_path} 500w`
+  );
+  modalImage.setAttribute(
+    'sizes',
+   '(min-width: 1024px) 500px, (min-width: 768px) 300px, 100vw'
+  );
+
+
   modalImage.setAttribute('alt', `${el.title}`);
 
   const modalHeader = document.createElement('h2');
@@ -165,6 +176,7 @@ const displayMovieInfo = async e => {
   getMovieDetails(movie_id).then(el => {
     createModalCard(el);
     modal.parentElement.classList.toggle('is-hidden');
+    setGrowElement();
   });
 };
 
@@ -173,6 +185,29 @@ function hideModal() {
   modal.replaceChildren();
   //   modal.removeEventListener('click', hideModal);
   //   window.removeEventListener('keydown',hideModal)
+}
+
+function setGrowElement() {
+  //var with list of movie details
+  const listDetails = document.getElementsByClassName('modal-card__list');
+  //var for movie title and genres
+  let listTitleHeight = listDetails[1].children[2].offsetHeight;
+  let listGenresHeight = listDetails[1].children[3].offsetHeight;
+
+  //line height 16 for division
+  console.log((listTitleHeight) > 16 & (listGenresHeight !== 16));
+  if (((listTitleHeight) > 16) & (listGenresHeight !== 16)) {
+    variablesCSS.style.setProperty(
+      '--grow_title',
+      Math.floor(listTitleHeight / 16)
+    );
+    variablesCSS.style.setProperty(
+      '--grow_genres',
+      Math.floor(listGenresHeight / 16)
+    );
+  } else {
+    variablesCSS.style.setProperty('--grow_genres', 0);
+  }
 }
 
 moviesContainer.addEventListener('click', displayMovieInfo);
@@ -191,3 +226,14 @@ modal.parentElement.addEventListener('click', el => {
     hideModal();
   }
 });
+
+//steering setting of flex-grow property for styling
+window.addEventListener(
+  'resize',
+  debounce(() => {
+    //start if modal content exist
+    if (modal.childNodes.length > 3) {
+      setGrowElement();
+    }
+  }, 100)
+);
